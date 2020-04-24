@@ -6,7 +6,7 @@ class HelloTest {
 
     @Test
     fun bla() {
-        println(mettbroetchen())
-//        main(arrayOf("Hundekuchen", "Mettbrötchen"))
+        someKotlinFunction(arrayOf("Hundekuchen", "Mettbrötchen"))
+        HelloJava.someStaticJavaMethod("foo", "bar")
     }
 }
