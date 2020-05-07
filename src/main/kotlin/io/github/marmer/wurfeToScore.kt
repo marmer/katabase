@@ -4,20 +4,21 @@ fun wurfeToScore(eingabe: String): Int = eingabe.mapIndexed { index, input -> to
 
 private fun toWurfpunkte(index: Int, eingabe: String): Int = when {
     WurfTyp.isSpare(eingabe[index]) ->
-        getBasispunkteFuer(index, eingabe) + getSpareExtrapunkteFuer(index, eingabe)
+        getBasispunkteFuer(index, eingabe) + getSpareExtrapunkte(index, eingabe)
 
     WurfTyp.isStrike(eingabe[index]) ->
-        getBasispunkteFuer(index, eingabe) + getStrikeExtrapunkteFuer(index, eingabe)
+        getBasispunkteFuer(index, eingabe) + getStrikeExtraPunkte(index, eingabe)
 
     else -> getBasispunkteFuer(index, eingabe)
 }
 
-private fun getSpareExtrapunkteFuer(index: Int, eingabe: String): Int =
-    if (isEndspiel(index, eingabe)) 0 else getBasispunkteFuer(index + 1, eingabe)
+private fun getSpareExtrapunkte(index: Int, eingabe: String) =
+    if (isEndspiel(index, eingabe)) 0
+    else getBasispunkteFuer(index + 1, eingabe)
 
-private fun getStrikeExtrapunkteFuer(index: Int, spiel: String): Int =
-    if (isEndspiel(index, spiel)) 0
-    else getBasispunkteFuer(index + 1, spiel) + getBasispunkteFuer(index + 2, spiel)
+private fun getStrikeExtraPunkte(index: Int, eingabe: String) =
+    if (isEndspiel(index, eingabe)) 0
+    else getBasispunkteFuer(index + 1, eingabe) + getBasispunkteFuer(index + 2, eingabe)
 
 private fun isEndspiel(index: Int, eingabe: String): Boolean {
     val kleinsterMoeglicherEndspielindex = 9
@@ -30,10 +31,6 @@ private fun isEndspiel(index: Int, eingabe: String): Boolean {
     }
     return halbeFrames >= kleinsterMoeglicherEndspielindex * 2
 }
-
-private fun isOutOfRange(index: Int, eingabe: String) = index >= eingabe.length
-private fun isLetzterWurf(index: Int, eingabe: String) = index == eingabe.length - 1
-private fun isVorletzterWurf(index: Int, eingabe: String) = index == eingabe.length - 2
 
 private fun getBasispunkteFuer(index: Int, eingabe: String): Int = when {
     WurfTyp.von(eingabe[index]) == WurfTyp.STRIKE -> 10
