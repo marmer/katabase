@@ -8,6 +8,8 @@ val kotlinVersion = "1.3.72"
 plugins {
     java
     kotlin("jvm") version "1.3.72"
+    id("org.sonarqube") version "2.8"
+    jacoco
 }
 
 group = "io.github.marmer.kata"
@@ -30,7 +32,38 @@ configure<JavaPluginConvention>{
     targetCompatibility = javaVersion
 }
 
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+        csv.isEnabled = false
+        html.destination = file("${buildDir}/jacocoHtml")
+    }
+}
 
+sonarqube {
+    properties {
+        // must be unique in a given SonarQube instance
+        property("sonar.projectKey", "io.github.marmer.katas:katabase")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.organization", "marmer-github")
+        // --- optional properties ---
+        // defaults to project key
+        property("sonar.projectName", "katabase")
+        // defaults to 'not provided'
+        //property("sonar.projectVersion","1.0")
+        // Path is relative to the sonar-project.properties file. Defaults to .
+        property("sonar.sources", "src/main/**/*")
+        property("sonar.tests", "src/test/**/*")
+        property("sonar.test.inclusions", "**/*Test*/**")
+        property("sonar.exclusions", "**/*Test*/**")
+        // Encoding of the source code. Default is default system encoding
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.kotlin.coveragePlugin", "jacoco")
+        //property("sonar.log.level=DEBUG)
+        //property("sonar.verbose=true)
+    }
+}
 
 tasks.withType<Test>() {
     useJUnitPlatform()
