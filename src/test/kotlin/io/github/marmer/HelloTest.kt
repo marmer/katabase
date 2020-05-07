@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 class HelloTest {
 
     @Test
-    fun bla() {
+    fun helloTest() {
         someKotlinFunction(arrayOf("Hundekuchen", "Mettbrötchen"))
         HelloJava.someStaticJavaMethod("foo", "bar")
     }
