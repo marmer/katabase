@@ -52,8 +52,8 @@ sonarqube {
         // defaults to 'not provided'
         //property("sonar.projectVersion","1.0")
         // Path is relative to the sonar-project.properties file. Defaults to .
-        property("sonar.sources", "src/main/**/*")
-        property("sonar.tests", "src/test/**/*")
+        property("sonar.sources", "src/main/java,src/main/kotlin")
+        property("sonar.tests", "src/test/java,src/test/kotlin")
         property("sonar.test.inclusions", "**/*Test*/**")
         property("sonar.exclusions", "**/*Test*/**")
         // Encoding of the source code. Default is default system encoding
