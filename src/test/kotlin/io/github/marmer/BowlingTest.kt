@@ -6,6 +6,7 @@ import kotlin.test.assertEquals
 
 class BowlingTest {
 
+
     @Test
     @DisplayName("alles Ratten")
     fun berechne_allesRatten() {
