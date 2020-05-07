@@ -22,7 +22,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew clean build
 
     - name: Sonar
-      run: ./gradlew sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
