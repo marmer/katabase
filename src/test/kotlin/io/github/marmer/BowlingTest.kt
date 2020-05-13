@@ -1,15 +1,14 @@
 package io.github.marmer
 
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+
 
 class BowlingTest {
 
 
     @Test
-    @DisplayName("alles Ratten")
-    fun berechne_allesRatten() {
+    fun `alles Ratten`() {
         // Preparation
 
         // Execution
@@ -20,8 +19,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("einfache Zahl")
-    fun berechne_EinfacheZahl() {
+    fun `einfache Zahl`() {
         // Preparation
 
         // Execution
@@ -32,8 +30,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("BerechneEinfacheZahlenreihe")
-    fun berechne_BerechneEinfacheZahlenreihe() {
+    fun `Berechne einfache Zahlenreihe`() {
         // Preparation
 
         // Execution
@@ -44,8 +41,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Faul zählt leer")
-    fun berechne_FaulZaehltLeer() {
+    fun `Faul zaehlt leer`() {
         // Preparation
 
         // Execution
@@ -56,8 +52,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Strike allein zählt zehn Punkte")
-    fun berechne_StrikeAlleinZaehltZehnPunkte() {
+    fun `Strike allein zaehlt zehn Punkte`() {
         // Preparation
 
         // Execution
@@ -68,8 +63,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Die nachfolgenden Würfe eines Strikes werden zum Strike zu addiert")
-    fun berechne_DieNachfolgendenWuerfeEinesStrikesWerdenZumStrikeZuAddiert() {
+    fun `Die nachfolgenden Wuerfe eines Strikes werden zum Strike zu addiert`() {
         // Preparation
 
         // Execution
@@ -80,8 +74,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Keine Würfe, keine Punkte")
-    fun berechne_KeineWuerfeKeinePunkte() {
+    fun `Keine Wuerfe, keine Punkte`() {
         // Preparation
 
         // Execution
@@ -92,8 +85,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Keine Bonuspunkte für den Extrawurf")
-    fun berechne_PerfektesSpiel() {
+    fun `Keine Bonuspunkte fuer den Extrawurf`() {
         // Preparation
 
         // Execution
@@ -104,8 +96,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Perfektes Spiel ohne Extrawurf")
-    fun berechne_PerfektesSpielOhneExtrawurf() {
+    fun `Perfektes Spiel ohne Extrawurf`() {
         // Preparation
 
         // Execution
@@ -116,8 +107,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Perfektes Spiel mit einem Extrawurf")
-    fun berechne_PerfektesSpielMitEinemExtrawurf() {
+    fun `Perfektes Spiel mit einem Extrawurf`() {
         // Preparation
 
         // Execution
@@ -129,8 +119,7 @@ class BowlingTest {
 
 
     @Test
-    @DisplayName("Spare im Endframe sollte nur vorhergehende Punkte berücksichtigen")
-    fun testMethodName_SpareImEndframeSollteVorhergehendeVorhergehendePunkteBeruecksichtigen() {
+    fun `Spare im Endframe sollte nur vorhergehende Punkte beruecksichtigen`() {
         // Preparation
 
         // Execution
@@ -141,8 +130,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Spare am Ende sollte nur vorgänger beruecksichtigen")
-    fun berechne_SpareAmEndeSollteNurVorgaengerBeruecksichtigen() {
+    fun `Spare am Ende sollte nur vorgaenger beruecksichtigen`() {
         // Preparation
 
         // Execution
@@ -153,8 +141,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Spare sollte vorhergehende und nachfolgende Punkte berücksichtigen")
-    fun berechne_SpareSollteVorhergehendeUndNachfolgendePunkteBeruecksichtigen() {
+    fun `Spare sollte vorhergehende und nachfolgende Punkte beruecksichtigen`() {
         // Preparation
 
         // Execution
@@ -165,8 +152,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Akzeptanz mit Extrawurf")
-    fun berechne_AkzeptanzMitExtrawurf() {
+    fun `Akzeptanz mit Extrawurf`() {
         // Preparation
 
         // Execution
@@ -177,8 +163,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("Akzeptanz ohne Extrawurf")
-    fun berechne_AkzeptanzOhneExtrawurf() {
+    fun `Akzeptanz ohne Extrawurf`() {
         // Preparation
 
         // Execution
