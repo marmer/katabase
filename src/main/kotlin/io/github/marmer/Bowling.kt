@@ -8,7 +8,8 @@ fun wurfeToScore(eingabe: String): Int {
 }
 
 data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
-    val punkte: Int = wuerfe.sumBy(Wurf::punkte)
+    val punkte: Int
+        get() = wuerfe.sumBy(Wurf::punkte)
 
     companion object {
         fun builder(): Builder {
@@ -54,7 +55,7 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
 
         private fun toWurf(input: Char): Wurf {
             val inEndgame = isEndgame()
-            val currentWurfIndex = wurfContext.lastIndex
+            val currentWurfIndex = wurfContext.lastIndex + 1
 
             return when {
                 isStrike(input) -> Strike(
@@ -99,13 +100,13 @@ data class Points(override val basispunkte: Int) : Wurf {
     override val extrapunkte: Int = 0
 }
 
-data class Spare(val vorgaenger: Wurf, val nachfolger: () -> Wurf?) : Wurf {
-    override val basispunkte: Int = 10 - vorgaenger.punkte
+data class Spare(val vorgaenger: Wurf, val nachfolger: (() -> Wurf?)) : Wurf {
+    override val basispunkte: Int = 10 - vorgaenger.basispunkte
     override val extrapunkte: Int
         get() = nachfolger()?.basispunkte ?: 0
 }
 
-data class Strike(val nachfolger1: () -> Wurf?, val nachfolger2: () -> Wurf?) : Wurf {
+data class Strike(val nachfolger1: (() -> Wurf?), val nachfolger2: (() -> Wurf?)) : Wurf {
     override val basispunkte: Int = 10
     override val extrapunkte: Int
         get() = (nachfolger1()?.basispunkte ?: 0) +
