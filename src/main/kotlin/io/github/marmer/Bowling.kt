@@ -1,5 +1,7 @@
 package io.github.marmer
 
+typealias Spiel = ArrayList<Frame>
+
 fun wurfeToScore(eingabe: String): Int {
     val frameBuilder = Frame.builder()
     eingabe.forEach(frameBuilder::addWurf)
@@ -19,68 +21,74 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
 
     class Builder {
         private var wurfContext = ArrayList<Wurf>()
-        private var game = newGame()
+        private var spiel = newSpiel()
 
         fun addWurf(input: Char) {
             val wurf = toWurf(input)
 
             wurfContext.add(wurf)
-            addToCurrentFrame(wurf)
 
-            if (gameIsReadyForNewFrame()) {
-                game.add(Frame())
-            }
+            spiel.add(wurf)
         }
 
         private fun toWurf(input: Char): Wurf {
-            val inEndgame = isEndspiel()
+            val inEndgame = spiel.isEndspiel()
             val currentWurfIndex = wurfContext.lastIndex + 1
 
             return when {
-                isStrike(input) -> Strike(
+                input.isStrike() -> Strike(
                     { if (inEndgame) null else wurfContext.get(currentWurfIndex + 1) },
                     { if (inEndgame) null else wurfContext.get(currentWurfIndex + 2) })
 
-                isSpare(input) -> Spare(wurfContext.last()) {
+                input.isSpare() -> Spare(wurfContext.last()) {
                     if (inEndgame) null else wurfContext.get(currentWurfIndex + 1)
                 }
 
-                isPoints(input) -> Points(Character.getNumericValue(input))
+                input.isPoints() -> Points(Character.getNumericValue(input))
 
                 else -> Points(0)
             }
         }
 
-        private fun gameIsReadyForNewFrame(): Boolean = !isEndspiel() &&
-                (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
-
-        private fun addToCurrentFrame(wurf: Wurf) {
-            val wuerfe = ArrayList(currentFrameWuerfe())
-            wuerfe.add(wurf)
-            game[game.lastIndex] = Frame(wuerfe)
-        }
-
-        private fun currentFrameWuerfe() = game.last().wuerfe
-
-        private fun isEndspiel() = game.size >= 10
-
-        private fun isPoints(wurf: Char) = wurf.isDigit()
-
-        private fun isSpare(wurf: Char) = wurf == '/'
-
-        private fun isStrike(wurf: Char) = wurf == 'X'
-
-        private fun newGame() = arrayListOf(Frame())
-
-        fun build(): ArrayList<Frame> {
-            val retVal = game
-            game = newGame()
+        fun build(): Spiel {
+            val retVal = spiel
+            spiel = newSpiel()
             return retVal
         }
     }
 }
 
 
+//extension functions
+private fun Char.isPoints() = isDigit()
+
+private fun Char.isSpare() = this == '/'
+
+private fun Char.isStrike() = this == 'X'
+
+
+//Game
+private fun Spiel.isReadyForNewFrame(): Boolean = !isEndspiel() &&
+        (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
+
+private fun Spiel.add(wurf: Wurf) {
+    val wuerfe = ArrayList(currentFrameWuerfe())
+    wuerfe.add(wurf)
+    this[lastIndex] = Frame(wuerfe)
+
+    if (isReadyForNewFrame()) {
+        add(Frame())
+    }
+}
+
+private fun Spiel.currentFrameWuerfe() = last().wuerfe
+
+private fun Spiel.isEndspiel() = size >= 10
+
+private fun newSpiel() = arrayListOf(Frame())
+
+
+//Würfe
 interface Wurf {
     val basispunkte: Int
     val extrapunkte: Int
