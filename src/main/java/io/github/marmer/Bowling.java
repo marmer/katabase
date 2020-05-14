@@ -11,9 +11,8 @@ import java.util.function.Supplier;
 public class Bowling {
     public static int wurfeToScore(@NotNull final String eingabe) {
         final var frameBuilder = Frame.builder();
-        for (final char wurf : eingabe.toCharArray()) {
-            frameBuilder.addWurf(wurf);
-        }
+
+        eingabe.chars().forEach(wurf -> frameBuilder.addWurf((char) wurf));
 
         return frameBuilder.build().stream().mapToInt(Frame::getPunkte).sum();
     }
