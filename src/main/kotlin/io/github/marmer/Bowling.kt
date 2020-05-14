@@ -68,9 +68,6 @@ private fun Char.isStrike() = this == 'X'
 
 
 //Game
-private fun Spiel.isReadyForNewFrame(): Boolean = !isEndspiel() &&
-        (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
-
 private fun Spiel.add(wurf: Wurf) {
     val wuerfe = ArrayList(currentFrameWuerfe())
     wuerfe.add(wurf)
@@ -80,6 +77,9 @@ private fun Spiel.add(wurf: Wurf) {
         add(Frame())
     }
 }
+
+private fun Spiel.isReadyForNewFrame(): Boolean = !isEndspiel() &&
+        (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
 
 private fun Spiel.currentFrameWuerfe() = last().wuerfe
 
