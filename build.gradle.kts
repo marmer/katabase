@@ -10,6 +10,7 @@ plugins {
     kotlin("jvm") version "1.3.72"
     id("org.sonarqube") version "2.8"
     jacoco
+    id("io.freefair.lombok") version "5.0.1"
 }
 
 group = "io.github.marmer.kata"
