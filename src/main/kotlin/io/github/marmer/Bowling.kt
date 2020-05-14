@@ -41,7 +41,7 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
                         lastFrameWuerfe().last() is Strike
             }
 
-        private fun isEndspiel() = frames.size < 10
+        private fun isEndspiel() = frames.size >= 10
 
         private fun addToLastFrame(wurf: Wurf) {
             val wuerfe = ArrayList(lastFrameWuerfe())
@@ -59,11 +59,11 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
 
             return when {
                 isStrike(input) -> Strike(
-                    { if (!inEndgame) null else wurfContext.get(currentWurfIndex + 1) },
-                    { if (!inEndgame) null else wurfContext.get(currentWurfIndex + 2) })
+                    { if (inEndgame) null else wurfContext.get(currentWurfIndex + 1) },
+                    { if (inEndgame) null else wurfContext.get(currentWurfIndex + 2) })
 
                 isSpare(input) -> Spare(wurfContext.last()) {
-                    if (!inEndgame) null else wurfContext.get(currentWurfIndex + 1)
+                    if (inEndgame) null else wurfContext.get(currentWurfIndex + 1)
                 }
 
                 isPoints(input) -> Points(Character.getNumericValue(input))
