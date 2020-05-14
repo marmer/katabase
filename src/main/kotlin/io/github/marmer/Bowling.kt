@@ -32,15 +32,6 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
             }
         }
 
-        private fun gameIsReadyForNewFrame(): Boolean = !isEndspiel() &&
-                (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
-
-        private fun addToCurrentFrame(wurf: Wurf) {
-            val wuerfe = ArrayList(currentFrameWuerfe())
-            wuerfe.add(wurf)
-            game[game.lastIndex] = Frame(wuerfe)
-        }
-
         private fun toWurf(input: Char): Wurf {
             val inEndgame = isEndspiel()
             val currentWurfIndex = wurfContext.lastIndex + 1
@@ -58,6 +49,15 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
 
                 else -> Points(0)
             }
+        }
+
+        private fun gameIsReadyForNewFrame(): Boolean = !isEndspiel() &&
+                (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
+
+        private fun addToCurrentFrame(wurf: Wurf) {
+            val wuerfe = ArrayList(currentFrameWuerfe())
+            wuerfe.add(wurf)
+            game[game.lastIndex] = Frame(wuerfe)
         }
 
         private fun currentFrameWuerfe() = game.last().wuerfe
