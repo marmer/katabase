@@ -19,42 +19,30 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
 
     class Builder {
         private var wurfContext = ArrayList<Wurf>()
-        private var frames = newGame()
+        private var game = newGame()
 
         fun addWurf(input: Char) {
             val wurf = toWurf(input)
 
             wurfContext.add(wurf)
-            addToLastFrame(wurf)
+            addToCurrentFrame(wurf)
 
-            if (isTimeForNewFrame()) {
-                frames.add(Frame())
+            if (gameIsReadyForNewFrame()) {
+                game.add(Frame())
             }
-
         }
 
-        private fun isTimeForNewFrame(): Boolean =
-            if (isEndspiel()) {
-                false
-            } else {
-                lastFrameWuerfe().size >= 2 ||
-                        lastFrameWuerfe().last() is Strike
-            }
+        private fun gameIsReadyForNewFrame(): Boolean = !isEndspiel() &&
+                (currentFrameWuerfe().size >= 2 || currentFrameWuerfe().last() is Strike)
 
-        private fun isEndspiel() = frames.size >= 10
-
-        private fun addToLastFrame(wurf: Wurf) {
-            val wuerfe = ArrayList(lastFrameWuerfe())
+        private fun addToCurrentFrame(wurf: Wurf) {
+            val wuerfe = ArrayList(currentFrameWuerfe())
             wuerfe.add(wurf)
-            frames[frames.lastIndex] = Frame(wuerfe)
+            game[game.lastIndex] = Frame(wuerfe)
         }
-
-        private fun lastFrameWuerfe() = frames.last().wuerfe
-
-        private fun isEndgame(): Boolean = frames.size >= 10
 
         private fun toWurf(input: Char): Wurf {
-            val inEndgame = isEndgame()
+            val inEndgame = isEndspiel()
             val currentWurfIndex = wurfContext.lastIndex + 1
 
             return when {
@@ -72,19 +60,23 @@ data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
             }
         }
 
+        private fun currentFrameWuerfe() = game.last().wuerfe
+
+        private fun isEndspiel() = game.size >= 10
+
         private fun isPoints(wurf: Char) = wurf.isDigit()
 
         private fun isSpare(wurf: Char) = wurf == '/'
 
         private fun isStrike(wurf: Char) = wurf == 'X'
 
+        private fun newGame() = arrayListOf(Frame())
+
         fun build(): ArrayList<Frame> {
-            val retVal = frames
-            frames = newGame()
+            val retVal = game
+            game = newGame()
             return retVal
         }
-
-        private fun newGame() = arrayListOf(Frame())
     }
 }
 
