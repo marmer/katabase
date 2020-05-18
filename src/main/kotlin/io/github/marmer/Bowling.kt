@@ -3,71 +3,63 @@ package io.github.marmer
 typealias Spiel = ArrayList<Frame>
 
 fun wurfeToScore(eingabe: String): Int {
-    val frameBuilder = Frame.builder()
-    eingabe.forEach(frameBuilder::addWurf)
+    val spielBuilder = SpielBuilder()
+    eingabe.forEach { wurf -> spielBuilder add wurf }
 
-    return frameBuilder.build().map(Frame::punkte).sum()
+    return spielBuilder.build().map(Frame::punkte).sum()
 }
 
 data class Frame(val wuerfe: ArrayList<Wurf> = ArrayList()) {
     val punkte: Int
         get() = wuerfe.sumBy(Wurf::punkte)
+}
 
-    companion object {
-        fun builder(): Builder {
-            return Builder()
+class SpielBuilder {
+    private var wurfContext = ArrayList<Wurf>()
+    private var spiel = newSpiel()
+
+    infix fun add(input: Char) {
+        val wurf = input.toWurf()
+
+        wurfContext.add(wurf)
+
+        spiel.add(wurf)
+    }
+
+    private fun Char.toWurf(): Wurf {
+        val inEndgame = spiel.isEndspiel()
+        val currentWurfIndex = wurfContext.lastIndex + 1
+
+        return when {
+            isStrike() -> Strike(
+                { if (inEndgame) null else wurfContext.get(currentWurfIndex + 1) },
+                { if (inEndgame) null else wurfContext.get(currentWurfIndex + 2) })
+
+            isSpare() -> Spare(wurfContext.last()) {
+                if (inEndgame) null else wurfContext.get(currentWurfIndex + 1)
+            }
+
+            isPoints() -> Points(Character.getNumericValue(this))
+
+            else -> Points(0)
         }
     }
 
-    class Builder {
-        private var wurfContext = ArrayList<Wurf>()
-        private var spiel = newSpiel()
+    private fun Char.isPoints() = isDigit()
 
-        fun addWurf(input: Char) {
-            val wurf = toWurf(input)
+    private fun Char.isSpare() = this == '/'
 
-            wurfContext.add(wurf)
+    private fun Char.isStrike() = this == 'X'
 
-            spiel.add(wurf)
-        }
-
-        private fun toWurf(input: Char): Wurf {
-            val inEndgame = spiel.isEndspiel()
-            val currentWurfIndex = wurfContext.lastIndex + 1
-
-            return when {
-                input.isStrike() -> Strike(
-                    { if (inEndgame) null else wurfContext.get(currentWurfIndex + 1) },
-                    { if (inEndgame) null else wurfContext.get(currentWurfIndex + 2) })
-
-                input.isSpare() -> Spare(wurfContext.last()) {
-                    if (inEndgame) null else wurfContext.get(currentWurfIndex + 1)
-                }
-
-                input.isPoints() -> Points(Character.getNumericValue(input))
-
-                else -> Points(0)
-            }
-        }
-
-        fun build(): Spiel {
-            val retVal = spiel
-            spiel = newSpiel()
-            return retVal
-        }
+    fun build(): Spiel {
+        val retVal = spiel
+        spiel = newSpiel()
+        return retVal
     }
 }
 
 
-//extension functions
-private fun Char.isPoints() = isDigit()
-
-private fun Char.isSpare() = this == '/'
-
-private fun Char.isStrike() = this == 'X'
-
-
-//Game
+//Spiel extension functions
 private fun Spiel.add(wurf: Wurf) {
     val wuerfe = ArrayList(currentFrameWuerfe())
     wuerfe.add(wurf)
