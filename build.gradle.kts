@@ -27,9 +27,10 @@ dependencies {
     testImplementation(kotlin("test-junit5", kotlinVersion))
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.6.2")
     testImplementation("org.assertj", "assertj-core", "3.16.1")
+    testImplementation("org.hamcrest", "hamcrest-core", "2.2")
 }
 
-configure<JavaPluginConvention>{
+configure<JavaPluginConvention> {
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
 }
