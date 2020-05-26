@@ -118,6 +118,9 @@ internal class BoxplotTest {
         val result = underTest.plot
 
         // Assertion
-        assertEquals("|-OOOOOO#OOOOOOOO-------|", result)
+        assertEquals(
+            "|--OOOOOOOOOOOOO#OOOOOOOOOOOOOOOO----------------|",
+            result
+        )
     }
 }

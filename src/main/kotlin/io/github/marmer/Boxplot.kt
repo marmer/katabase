@@ -1,7 +1,13 @@
 package io.github.marmer
 
-class Boxplot(private vararg val values: Int) {
+import kotlin.math.roundToInt
+
+class Boxplot(vararg values: Int) {
     private val sortedValues = values.copyOf().apply { sort() }
+
+    companion object {
+        const val PLOTSIZE = 50
+    }
 
     val median = sortedValues.getMedian()
     val minimum = sortedValues.first()
@@ -9,8 +15,8 @@ class Boxplot(private vararg val values: Int) {
     val unteresQuartil = sortedValues.copyOfUntereHaelfte().getMedian()
     val oberesQuartil = sortedValues.copyOfObereHaelfte().getMedian()
     val plot: String
-        get() = (minimum..maximum)
-            .map { toPlotChar(it) }
+        get() = (1..PLOTSIZE)
+            .map(this::toPlotChar)
             .joinToString("")
 
     private fun IntArray.getMedian() =
@@ -30,12 +36,17 @@ class Boxplot(private vararg val values: Int) {
 
     private fun toPlotChar(it: Int): String {
         return when {
-            it.equals(minimum) || it.equals(maximum) -> "|"
-            it.equals(median.toInt()) -> "#"
-            it in unteresQuartil.toInt()..oberesQuartil.toInt() -> "O"
+            it.equals(1) || it.equals(PLOTSIZE) -> "|"
+            it.equals(normalized(median)) -> "#"
+            it in normalized(unteresQuartil)..normalized(oberesQuartil) -> "O"
             else -> "-"
         }
     }
+
+    private fun normalized(median: Double): Int {
+        return (((median - minimum) / (maximum - minimum)) * PLOTSIZE).roundToInt()
+    }
+
 
 }
 
