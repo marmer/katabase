@@ -35,14 +35,14 @@ class Boxplot(vararg values: Int) {
     private fun toPlotChar(it: Int): String {
         return when {
             it.equals(1) || it.equals(PLOTSIZE) -> "|"
-            it.equals(normalized(median)) -> "#"
-            it in normalized(unteresQuartil)..normalized(oberesQuartil) -> "O"
+            it.equals(median.normalized()) -> "#"
+            it in unteresQuartil.normalized()..oberesQuartil.normalized() -> "O"
             else -> "-"
         }
     }
 
-    private fun normalized(median: Double): Int {
-        return (((median - minimum) / (maximum - minimum)) * PLOTSIZE).roundToInt()
+    private fun Double.normalized(): Int {
+        return (((this - minimum) / (maximum - minimum)) * PLOTSIZE).roundToInt()
     }
 
 
