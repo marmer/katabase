@@ -15,9 +15,7 @@ class Boxplot(vararg values: Int) {
     val unteresQuartil = sortedValues.copyOfUntereHaelfte().getMedian()
     val oberesQuartil = sortedValues.copyOfObereHaelfte().getMedian()
     val plot: String
-        get() = (1..PLOTSIZE)
-            .map(this::toPlotChar)
-            .joinToString("")
+        get() = (1..PLOTSIZE).joinToString("", transform = this::toPlotChar)
 
     private fun IntArray.getMedian() =
         if (size % 2 != 0)
