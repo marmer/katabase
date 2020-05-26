@@ -107,4 +107,17 @@ internal class BoxplotTest {
         // Assertion
         assertEquals(4.0, result)
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun `printPlot - sollte Plotten`() {
+        // Preparation
+        val underTest = Boxplot(1, 2, 3, 5, 7, 11, 13, 17, 19, 21)
+
+        // Execution
+        val result = underTest.plot
+
+        // Assertion
+        assertEquals("|-OOOOOO#OOOOOOOO---|", result)
+    }
 }

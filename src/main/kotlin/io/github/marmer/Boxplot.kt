@@ -8,6 +8,10 @@ class Boxplot(private vararg val values: Int) {
     val maximum = sortedValues.last()
     val unteresQuartil = sortedValues.copyOfUntereHaelfte().getMedian()
     val oberesQuartil = sortedValues.copyOfObereHaelfte().getMedian()
+    val plot: String
+        get() = (minimum..maximum)
+            .map { toPlotChar(it) }
+            .joinToString("")
 
     private fun IntArray.getMedian() =
         if (size % 2 != 0)
@@ -22,5 +26,16 @@ class Boxplot(private vararg val values: Int) {
     fun IntArray.copyOfObereHaelfte() =
         if (size <= 1) copyOf()
         else copyOfRange(size / 2, size)
+
+
+    private fun toPlotChar(it: Int): String {
+        return when {
+            it.equals(minimum) || it.equals(maximum) -> "|"
+            it.equals(median.toInt()) -> "#"
+            it in unteresQuartil.toInt()..oberesQuartil.toInt() -> "O"
+            else -> "-"
+        }
+    }
+
 }
 
