@@ -37,6 +37,7 @@ data class Ringbuffer<T>(var size: Int) {
     }
 
     fun take(): T? {
+        @Suppress("UNCHECKED_CAST")
         val retVal = buffer[takeIndex].also { buffer[takeIndex] = null } as T?
         incrementTakeIndex()
         decrementCount()
