@@ -24,9 +24,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build
 
-    - name: Create missing directories for Sonar
-      run: mkdir src/test/java
-
     - name: Sonar
       run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       env:

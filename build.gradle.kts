@@ -55,8 +55,8 @@ sonarqube {
         // defaults to 'not provided'
         //property("sonar.projectVersion","1.0")
         // Path is relative to the sonar-project.properties file. Defaults to .
-        property("sonar.sources", "src/main/java,src/main/kotlin")
-        property("sonar.tests", "src/test/java,src/test/kotlin")
+        property("sonar.sources", sourcePathDirectoriesIn("src/main"))
+        property("sonar.tests", sourcePathDirectoriesIn("src/test"))
         property("sonar.test.inclusions", "**/*Test*/**")
         property("sonar.exclusions", "**/*Test*/**")
         // Encoding of the source code. Default is default system encoding
@@ -80,7 +80,7 @@ tasks.withType<Test>() {
         )
 
         exceptionFormat = TestExceptionFormat.FULL
-        showExceptions  =true
+        showExceptions = true
         showCauses = true
         showStackTraces = true
     }
@@ -90,4 +90,11 @@ tasks.withType<Test>() {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.javaParameters = true
     kotlinOptions.jvmTarget = javaVersion.toString()
+}
+
+fun sourcePathDirectoriesIn(srcMain: String): String {
+    return (File(rootDir, srcMain)
+        .listFiles(File::isDirectory) ?: emptyArray())
+        .map { it.name }
+        .joinToString(",") { srcMain + "/" + it }
 }
