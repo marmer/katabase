@@ -92,9 +92,9 @@ tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = javaVersion.toString()
 }
 
-fun sourcePathDirectoriesIn(srcMain: String): String {
-    return (File(rootDir, srcMain)
+fun sourcePathDirectoriesIn(sourtePathRoot: String): String {
+    return (File(rootDir, sourtePathRoot)
         .listFiles(File::isDirectory) ?: emptyArray())
         .map { it.name }
-        .joinToString(",") { srcMain + "/" + it }
+        .joinToString(",") { sourtePathRoot + "/" + it }
 }
