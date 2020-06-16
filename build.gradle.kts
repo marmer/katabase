@@ -29,6 +29,7 @@ dependencies {
     testImplementation("org.assertj", "assertj-core", "3.16.1")
     testImplementation("org.hamcrest", "hamcrest-core", "2.2")
     testImplementation("org.mockito", "mockito-core", "3.3.3")
+    testImplementation("org.mockito", "mockito-junit-jupiter", "3.3.3")
     testImplementation("com.nhaarman.mockitokotlin2", "mockito-kotlin", "2.2.0")
 }
 
