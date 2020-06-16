@@ -1,0 +1,6 @@
+{
+  "name": "oche",
+  "scripts": {
+    "start": "node src/main/js/helloWorld.js"
+  }
+}

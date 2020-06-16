@@ -189,3 +189,4 @@ local.properties
 #.project
 
 .idea
+node_modules
