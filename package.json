@@ -1,6 +1,28 @@
 {
-  "name": "oche",
+  "name": "katabase",
+  "devDependencies": {
+    "jest": "^26.0.1"
+  },
+  "version": "1.0.0",
+  "main": "src/main/javascript/application.js",
   "scripts": {
-    "start": "node src/main/js/helloWorld.js"
-  }
+    "app": "node src/main/javascript/application.js"
+  },
+  "bin": {
+    "snippet": "src/main/javascript/application.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marmer/katabase.git"
+  },
+  "keywords": [
+    "kata"
+  ],
+  "author": "marmer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marmer/katabase/issues"
+  },
+  "homepage": "https://github.com/marmer/katabase#readme",
+  "description": "kata base"
 }

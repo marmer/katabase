@@ -11,6 +11,13 @@ plugins {
     id("org.sonarqube") version "2.8"
     jacoco
     id("io.freefair.lombok") version "5.0.1"
+    id("com.github.node-gradle.node") version "2.2.4"
+    application
+}
+
+//Can be run wich gradle run --args="..."
+application {
+    mainClass.set("io.github.marmer.ApplicationKt")
 }
 
 group = "io.github.marmer.kata"

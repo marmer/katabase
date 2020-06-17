@@ -1,6 +1,5 @@
 package io.github.marmer
 
-fun someKotlinFunction(args: Array<String>) {
+fun main(args: Array<String>) {
     args.forEach { arg -> println("Hello, World: $arg") }
 }
-
