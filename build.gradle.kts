@@ -94,8 +94,8 @@ tasks.withType<Test>() {
         showCauses = true
         showStackTraces = true
     }
+    dependsOn("npm_run_test")
 }
-
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.javaParameters = true
