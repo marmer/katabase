@@ -3,4 +3,4 @@
 import readline from "readline-sync"
 import {Ohce} from "./ohce";
 
-new Ohce(readline.question, console.log)
+new Ohce(readline.question, console.log, greetingProviderMock)
