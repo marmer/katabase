@@ -22,7 +22,6 @@
     "tsc": "^1.20150623.0",
     "npm": "^6.14.5"
   },
-  "type": "module",
   "version": "1.0.0",
   "main": "build/classes/scripts/application.js",
   "scripts": {
