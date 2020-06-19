@@ -67,6 +67,7 @@ sonarqube {
         // Path is relative to the sonar-project.properties file. Defaults to .
         property("sonar.sources", sourcePathDirectoriesIn("src/main"))
         property("sonar.tests", sourcePathDirectoriesIn("src/test"))
+        property("sonar.sii.coverage.ut.ts.report.path", "coverage/lcov.info")
         property("sonar.test.inclusions", "**/*Test*/**")
         property("sonar.exclusions", "**/*Test*/**")
         // Encoding of the source code. Default is default system encoding
@@ -94,6 +95,7 @@ tasks.withType<Test>() {
         showCauses = true
         showStackTraces = true
     }
+    dependsOn("npm_run_test")
 }
 
 

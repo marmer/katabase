@@ -1,6 +1,10 @@
 {
   "name": "katabase",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  },
   "devDependencies": {
+    "@types/readline-sync": "^1.4.3",
     "@types/node": "^14.0.13",
     "@types/jest": "^26.0.0",
     "@babel/core": "^7.10.2",
@@ -18,7 +22,6 @@
     "tsc": "^1.20150623.0",
     "npm": "^6.14.5"
   },
-  "type": "module",
   "version": "1.0.0",
   "main": "build/classes/scripts/application.js",
   "scripts": {
