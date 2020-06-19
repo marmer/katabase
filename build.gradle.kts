@@ -8,7 +8,7 @@ val kotlinVersion = "1.3.72"
 plugins {
     java
     kotlin("jvm") version "1.3.72"
-    id("org.sonarqube") version "2.8"
+    id("org.sonarqube") version "3.0"
     jacoco
     id("io.freefair.lombok") version "5.0.1"
     id("com.github.node-gradle.node") version "2.2.4"
