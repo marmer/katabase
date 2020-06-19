@@ -75,8 +75,8 @@ sonarqube {
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.kotlin.coveragePlugin", "jacoco")
-        //property("sonar.log.level=DEBUG)
-        //property("sonar.verbose=true)
+        property("sonar.log.level", "DEBUG")
+        property("sonar.verbose", "true")
     }
 }
 
