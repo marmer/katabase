@@ -8,7 +8,7 @@ data class Galgenmaennchen(val gesuchtesWort: String) {
     }
 
     fun rateBuchstabe(buchstabe: Char): Galgenmaennchen =
-        Galgenmaennchen(gesuchtesWort, charsTried.union(setOf(buchstabe.standardized())))
+        Galgenmaennchen(gesuchtesWort, charsTried + buchstabe.standardized())
 
     override fun toString(): String = gesuchtesWort
         .map { if (charsTried.contains(it.standardized())) it else '-' }
