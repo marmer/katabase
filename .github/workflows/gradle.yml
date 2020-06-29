@@ -38,6 +38,14 @@ jobs:
       env:
         CI: true
       if: success()
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        # Artifact name
+        name: irgendwas.xml
+        # A file, directory or wildcard pattern that describes what to upload
+        path: junit.xml
 
     - name: Sonar
       run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
