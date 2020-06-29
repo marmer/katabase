@@ -96,7 +96,6 @@ tasks.withType<Test>() {
         showCauses = true
         showStackTraces = true
     }
-    dependsOn("npm_run_test")
 }
 
 

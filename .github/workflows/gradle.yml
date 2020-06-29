@@ -31,13 +31,13 @@ jobs:
       run: ./gradlew clean build
       if: success()
 
-      #    - run: npm install
-      #      if: success()
-      #
-      #    - run: npm test
-      #      env:
-      #        CI: true
-      #      if: success()
+        - run: npm install
+          if: success()
+
+        - run: npm test
+          env:
+            CI: true
+          if: success()
 
     - name: Sonar
       run: ./gradlew jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
