@@ -1,6 +1,6 @@
 package io.github.marmer
 
-data class Hangman(val searchWord: String) {
+data class Hangman(val searchWord: String, private val maxTries: Int = 7) {
     private var guessedTries = emptySet<Char>()
 
     private constructor(searchWord: String, guessedTries: Set<Char>) : this(searchWord) {
@@ -8,7 +8,10 @@ data class Hangman(val searchWord: String) {
     }
 
     fun guessLetter(letter: Char): Hangman =
-        Hangman(searchWord, guessedTries + letter.asStandardForm())
+        if (guessedTries.size >= maxTries)
+            this
+        else
+            Hangman(searchWord, guessedTries + letter.asStandardForm())
 
     override fun toString(): String =
         searchWord.map { if (guessedTries.contains(it.asStandardForm())) it else '-' }.joinToString("")

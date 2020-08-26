@@ -2,6 +2,7 @@ package io.github.marmer
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class HangmanTest {
     @Test
@@ -40,5 +41,22 @@ internal class HangmanTest {
         // Assertion
         underTest = underTest.guessLetter('A')
         assertThat(underTest.toString()).isEqualTo("aABb")
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun `ratenBuchstabe - wenn die maximale Anzahl der Buchstaben ueberschritten ist, sind keine weiteren Eingaben mehr moeglich`() {
+        // Preparation
+        var underTest = Hangman("aABb", maxTries = 2)
+
+        // Execution
+        underTest = underTest.guessLetter('b')
+        underTest = underTest.guessLetter('c')
+        val stateAfterTwoTries = underTest.toString()
+
+        // Assertion
+        val stateAfterNotAllowedTry = underTest.guessLetter('A').toString()
+
+        assertEquals(stateAfterTwoTries, stateAfterTwoTries, stateAfterNotAllowedTry)
     }
 }
