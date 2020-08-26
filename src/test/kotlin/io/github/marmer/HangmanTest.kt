@@ -3,27 +3,27 @@ package io.github.marmer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class GalgenmaennchenTest {
+internal class HangmanTest {
     @Test
     @Throws(Exception::class)
     fun `rateBuchstabe - sollte nur gesuchte buchstaben des gesuchten Wortes finden`() {
         // Preparation
-        var underTest = Galgenmaennchen("banana")
+        var underTest = Hangman("banana")
 
 
         // Execution
         assertThat(underTest.toString()).isEqualTo("------")
 
-        underTest = underTest.rateBuchstabe('x')
+        underTest = underTest.guessLetter('x')
         assertThat(underTest.toString()).isEqualTo("------")
 
-        underTest = underTest.rateBuchstabe('b')
+        underTest = underTest.guessLetter('b')
         assertThat(underTest.toString()).isEqualTo("b-----")
 
-        underTest = underTest.rateBuchstabe('n')
+        underTest = underTest.guessLetter('n')
         assertThat(underTest.toString()).isEqualTo("b-n-n-")
 
-        underTest = underTest.rateBuchstabe('a')
+        underTest = underTest.guessLetter('a')
         assertThat(underTest.toString()).isEqualTo("banana")
     }
 
@@ -31,14 +31,14 @@ internal class GalgenmaennchenTest {
     @Throws(Exception::class)
     fun `rateBuchstabe - gross und Kleinschreibung sollte egal sein`() {
         // Preparation
-        var underTest = Galgenmaennchen("aABb")
+        var underTest = Hangman("aABb")
 
         // Execution
-        underTest = underTest.rateBuchstabe('b')
+        underTest = underTest.guessLetter('b')
         assertThat(underTest.toString()).isEqualTo("--Bb")
 
         // Assertion
-        underTest = underTest.rateBuchstabe('A')
+        underTest = underTest.guessLetter('A')
         assertThat(underTest.toString()).isEqualTo("aABb")
     }
 }
