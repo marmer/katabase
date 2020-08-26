@@ -189,3 +189,8 @@ local.properties
 #.project
 
 .idea
+/node_modules/
+/workspace.cachenpm/
+/coverage/
+/junit.xml
+/test-report.xml
