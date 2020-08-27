@@ -3,6 +3,7 @@ package io.github.marmer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 internal class HangmanTest {
     @Test
@@ -45,18 +46,36 @@ internal class HangmanTest {
 
     @Test
     @Throws(Exception::class)
-    fun `ratenBuchstabe - wenn die maximale Anzahl der Buchstaben ueberschritten ist, sind keine weiteren Eingaben mehr moeglich`() {
+    fun `guessLetter - wenn die maximale Anzahl falscher Eingaben ueberschritten ist, sind keine weiteren Eingaben mehr moeglich`() {
         // Preparation
-        var underTest = Hangman("aABb", maxTries = 2)
+        var underTest = Hangman("aABb", 2)
 
         // Execution
         underTest = underTest.guessLetter('b')
-        underTest = underTest.guessLetter('c')
         val stateAfterTwoTries = underTest.toString()
+        underTest = underTest.guessLetter('c')
+        underTest = underTest.guessLetter('d')
 
         // Assertion
         val stateAfterNotAllowedTry = underTest.guessLetter('A').toString()
 
-        assertEquals(stateAfterTwoTries, stateAfterTwoTries, stateAfterNotAllowedTry)
+        assertEquals(stateAfterTwoTries, stateAfterNotAllowedTry)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun `rateBuchstabe - solange die maximale Anzahl korrekter Eingaben unterschritten ist, sind Eingaben moeglich`() {
+        // Preparation
+        var underTest = Hangman("aABb", 2)
+
+        // Execution
+        underTest = underTest.guessLetter('b')
+        val stateAfterTwoTries = underTest.toString()
+        underTest = underTest.guessLetter('c')
+
+        // Assertion
+        val stateAfterNotAllowedTry = underTest.guessLetter('A').toString()
+
+        assertNotEquals(stateAfterTwoTries, stateAfterNotAllowedTry)
     }
 }
