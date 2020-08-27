@@ -27,5 +27,5 @@ data class Hangman(val searchWord: String, private val maxFailedTries: Int = 7) 
     override fun toString(): String =
         searchWord.map { if (guessedTries.contains(it.asStandardForm())) it else '-' }.joinToString("")
 
-    fun Char.asStandardForm() = this.toLowerCase()
+    private fun Char.asStandardForm() = this.toLowerCase()
 }
