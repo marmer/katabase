@@ -7,6 +7,9 @@ data class Hangman(val searchWord: String, private val maxFailedTries: Int = 7) 
     private val numberOfFailedTries: Int
         get() = guessedTries.filterNot { searchWord.contains(it) }.size
 
+    private val isGameOver: Boolean
+        get() = numberOfFailedTries >= maxFailedTries
+
     private constructor(searchWord: String, maxFailedTries: Int, guessedTries: Set<Char>) : this(
         searchWord,
         maxFailedTries
@@ -15,12 +18,11 @@ data class Hangman(val searchWord: String, private val maxFailedTries: Int = 7) 
     }
 
     fun guessLetter(letter: Char): Hangman =
-        if (isGameOver())
+        if (isGameOver)
             Hangman(searchWord, maxFailedTries, guessedTries)
         else
             Hangman(searchWord, maxFailedTries, guessedTries + letter.asStandardForm())
 
-    private fun isGameOver() = numberOfFailedTries >= maxFailedTries
 
     override fun toString(): String =
         searchWord.map { if (guessedTries.contains(it.asStandardForm())) it else '-' }.joinToString("")
