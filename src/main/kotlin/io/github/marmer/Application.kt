@@ -9,8 +9,6 @@ fun main(args: Array<String>) {
 
 private data class NumberMapping(val decimal: DecimalNumber, val roman: RomanNumber)
 
-private data class ListNode<T>(val value: T, val next: T? = null, val prev: T? = null)
-
 private val NUMBER_MAPPINGS = listOf(
     NumberMapping(1000, "M"),
     NumberMapping(900, "CM"),
@@ -27,12 +25,8 @@ private val NUMBER_MAPPINGS = listOf(
     NumberMapping(1, "I"),
 )
 
-private val FROM_DECIMAL_MAPPING = NUMBER_MAPPINGS.mapIndexed { index, numberMapping ->
-    numberMapping.decimal to ListNode(
-        numberMapping,
-        if (index == 0) null else NUMBER_MAPPINGS[index - 1],
-        if (index == NUMBER_MAPPINGS.lastIndex) null else NUMBER_MAPPINGS[index + 1]
-    )
+private val FROM_DECIMAL_MAPPING = NUMBER_MAPPINGS.map { numberMapping ->
+    numberMapping.decimal to numberMapping.roman
 }
 
 internal fun DecimalNumber.toRomanNumber(): String = if (this == 0)
@@ -40,6 +34,6 @@ internal fun DecimalNumber.toRomanNumber(): String = if (this == 0)
 else {
     val pair = FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
 
-    pair.second.value.roman + (this - pair.first).toRomanNumber()
+    pair.second + (this - pair.first).toRomanNumber()
 }
 
