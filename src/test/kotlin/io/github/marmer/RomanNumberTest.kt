@@ -16,11 +16,13 @@ internal class RomanNumberTest {
         100 to "C",
         500 to "D",
         1000 to "M",
-    ).map { (input: DecimalNumber, expected: RomanNumber) ->
-        dynamicTest("$input should be mapped to $expected") {
-            assertEquals(expected, input.toRomanNumber())
-        }
-    }
+    ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
+        listOf(dynamicTest("$decimal should be mapped to $roman") {
+            assertEquals(roman, decimal.toRomanNumber())
+        }, dynamicTest("$roman should be mapped to $decimal") {
+            assertEquals(decimal, roman.toDecimalNumber())
+        })
+    }.flatMap { it }
 
 
     @TestFactory
@@ -32,22 +34,26 @@ internal class RomanNumberTest {
         300 to "CCC",
         1500 to "MD",
         3000 to "MMM",
-    ).map { (input: DecimalNumber, expected: RomanNumber) ->
-        dynamicTest("$input should be mapped to $expected") {
-            assertEquals(expected, input.toRomanNumber())
-        }
-    }
+    ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
+        listOf(dynamicTest("$decimal should be mapped to $roman") {
+            assertEquals(roman, decimal.toRomanNumber())
+        }, dynamicTest("$roman should be mapped to $decimal") {
+            assertEquals(decimal, roman.toDecimalNumber())
+        })
+    }.flatMap { it }
 
     @TestFactory
     fun simpleSubtractionRule() = listOf(
         4 to "IV",
         9 to "IX",
         999 to "CMXCIX",
-    ).map { (input: DecimalNumber, expected: RomanNumber) ->
-        dynamicTest("$input should be mapped to $expected") {
-            assertEquals(expected, input.toRomanNumber())
-        }
-    }
+    ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
+        listOf(dynamicTest("$decimal should be mapped to $roman") {
+            assertEquals(roman, decimal.toRomanNumber())
+        }, dynamicTest("$roman should be mapped to $decimal") {
+            assertEquals(decimal, roman.toDecimalNumber())
+        })
+    }.flatMap { it }
 
     @TestFactory
     fun acceptance() = listOf(
@@ -61,17 +67,19 @@ internal class RomanNumberTest {
         89 to "LXXXIX",
         99 to "XCIX",
         2013 to "MMXIII",
-    ).map { (input: DecimalNumber, expected: RomanNumber) ->
-        dynamicTest("$input should be mapped to $expected") {
-            assertEquals(expected, input.toRomanNumber())
-        }
-    }
+    ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
+        listOf(dynamicTest("$decimal should be mapped to $roman") {
+            assertEquals(roman, decimal.toRomanNumber())
+        }, dynamicTest("$roman should be mapped to $decimal") {
+            assertEquals(decimal, roman.toDecimalNumber())
+        })
+    }.flatMap { it }
 
     @Test
     @Throws(Exception::class)
     fun `negative numbers cannot be converted`() {
         // Preparation
-        
+
         // Execution
         val thrownException = assertThrows<IllegalArgumentException> { (-1).toRomanNumber() }
 
