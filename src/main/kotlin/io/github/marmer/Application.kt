@@ -35,21 +35,11 @@ private val FROM_DECIMAL_MAPPING = NUMBER_MAPPINGS.mapIndexed { index, numberMap
     )
 }
 
-private val FROM_ROMAN_MAPPING = NUMBER_MAPPINGS.mapIndexed { index, numberMapping ->
-    numberMapping.roman to ListNode(
-        numberMapping,
-        if (index == 0) null else NUMBER_MAPPINGS[index - 1],
-        if (index == NUMBER_MAPPINGS.lastIndex) null else NUMBER_MAPPINGS[index + 1]
-    )
-}
+internal fun DecimalNumber.toRomanNumber(): String = if (this == 0)
+    ""
+else {
+    val pair = FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
 
-internal fun DecimalNumber.toRomanNumber(): String = when {
-    this < 0 -> throw IllegalArgumentException("$this: No zeros or negative numbers allowed.")
-    this == 0 -> ""
-    else -> {
-        val pair = FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
-
-        pair.second.value.roman + (this - pair.first).toRomanNumber()
-    }
+    pair.second.value.roman + (this - pair.first).toRomanNumber()
 }
 
