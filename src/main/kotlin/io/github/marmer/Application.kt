@@ -46,11 +46,11 @@ internal fun DecimalNumber.toRomanNumber(): String =
 
 internal fun String.toDecimalNumber(): Int =
     FROM_ROMAN_MAPPING.find { mapping -> contains(mapping.first, ignoreCase = true) }
-        .let { mapping ->
-            if (mapping == null) 0
+        .let {
+            if (it == null) 0
             else
-                mapping.second.decimal + replaceFirst(
-                    mapping.first,
+                it.second.decimal + replaceFirst(
+                    it.first,
                     "",
                     ignoreCase = true
                 ).toDecimalNumber()
