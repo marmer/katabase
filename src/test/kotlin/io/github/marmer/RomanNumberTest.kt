@@ -72,6 +72,8 @@ internal class RomanNumberTest {
             assertEquals(roman, decimal.toRomanNumber())
         }, dynamicTest("$roman should be mapped to $decimal") {
             assertEquals(decimal, roman.toDecimalNumber())
+        }, dynamicTest("$roman should be mapped to $decimal") {
+            assertEquals(decimal, roman.toLowerCase().toDecimalNumber())
         })
     }.flatMap { it }
 
