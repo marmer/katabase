@@ -2,7 +2,9 @@ package io.github.marmer
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DynamicTest.dynamicTest
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
+import org.junit.jupiter.api.assertThrows
 
 internal class RomanNumberTest {
     @TestFactory
@@ -47,7 +49,6 @@ internal class RomanNumberTest {
         }
     }
 
-
     @TestFactory
     fun acceptance() = listOf(
         1 to "I",
@@ -66,5 +67,16 @@ internal class RomanNumberTest {
         }
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun `negative numbers cannot be converted`() {
+        // Preparation
+        
+        // Execution
+        val thrownException = assertThrows<IllegalArgumentException> { (-1).toRomanNumber() }
 
+        // Assertion
+        assertEquals("-1: is an unsupported negative value", thrownException.message)
+
+    }
 }

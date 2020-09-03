@@ -26,14 +26,15 @@ private val NUMBER_MAPPINGS = listOf(
 )
 
 private val FROM_DECIMAL_MAPPING = NUMBER_MAPPINGS.map { numberMapping ->
-    numberMapping.decimal to numberMapping.roman
+    numberMapping.decimal to numberMapping
 }
 
-internal fun DecimalNumber.toRomanNumber(): String = if (this == 0)
-    ""
-else {
-    val pair = FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
-
-    pair.second + (this - pair.first).toRomanNumber()
-}
+internal fun DecimalNumber.toRomanNumber(): String =
+    when {
+        this < 0 -> throw IllegalArgumentException("$this: is an unsupported negative value")
+        this == 0 -> ""
+        else -> FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
+            .second
+            .let { it.roman + (this - it.decimal).toRomanNumber() }
+    }
 
