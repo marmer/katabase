@@ -13,7 +13,7 @@ internal class RomanNumberTest {
         50 to "L",
         100 to "C",
         500 to "D",
-        1000 to "M"
+        1000 to "M",
     ).map { (input: DecimalNumber, expected: RomanNumber) ->
         dynamicTest("$input should be mapped to $expected") {
             assertEquals(expected, input.toRomanNumber())
@@ -29,7 +29,18 @@ internal class RomanNumberTest {
         150 to "CL",
         300 to "CCC",
         1500 to "MD",
-        3000 to "MMM"
+        3000 to "MMM",
+    ).map { (input: DecimalNumber, expected: RomanNumber) ->
+        dynamicTest("$input should be mapped to $expected") {
+            assertEquals(expected, input.toRomanNumber())
+        }
+    }
+
+    @TestFactory
+    fun simpleSubtractionRule() = listOf(
+        4 to "IV",
+        9 to "IX",
+        999 to "CMXCIX",
     ).map { (input: DecimalNumber, expected: RomanNumber) ->
         dynamicTest("$input should be mapped to $expected") {
             assertEquals(expected, input.toRomanNumber())
@@ -46,8 +57,9 @@ internal class RomanNumberTest {
         9 to "IX",
         10 to "X",
         42 to "XLII",
+        89 to "LXXXIX",
         99 to "XCIX",
-        2013 to "MMXIII"
+        2013 to "MMXIII",
     ).map { (input: DecimalNumber, expected: RomanNumber) ->
         dynamicTest("$input should be mapped to $expected") {
             assertEquals(expected, input.toRomanNumber())

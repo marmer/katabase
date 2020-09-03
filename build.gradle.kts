@@ -3,11 +3,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 var javaVersion = JavaVersion.VERSION_12
-val kotlinVersion = "1.3.72"
+val kotlinVersion = "1.4.0"
 
 plugins {
     java
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.0"
     id("org.sonarqube") version "3.0"
     jacoco
     id("io.freefair.lombok") version "5.0.1"
