@@ -1,10 +1,12 @@
 package io.github.marmer
 
+import io.github.marmer.JavaRomanNumerals.toDecimalNumber
+import io.github.marmer.JavaRomanNumerals.toRomanNumber
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory
 
-internal class RomanNumberTest {
+internal class JavaRomanNumberTest {
     @TestFactory
     fun simpleNumbers() = listOf(
         1 to "I",
@@ -16,9 +18,9 @@ internal class RomanNumberTest {
         1000 to "M",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
         listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
+            assertEquals(roman, toRomanNumber(decimal))
         }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
+            assertEquals(decimal, toDecimalNumber(roman))
         })
     }.flatten()
 
@@ -34,9 +36,9 @@ internal class RomanNumberTest {
         3000 to "MMM",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
         listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
+            assertEquals(roman, toRomanNumber(decimal))
         }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
+            assertEquals(decimal, toDecimalNumber(roman))
         })
     }.flatten()
 
@@ -47,9 +49,9 @@ internal class RomanNumberTest {
         999 to "CMXCIX",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
         listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
+            assertEquals(roman, toRomanNumber(decimal))
         }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
+            assertEquals(decimal, toDecimalNumber(roman))
         })
     }.flatten()
 
@@ -67,9 +69,9 @@ internal class RomanNumberTest {
         2013 to "MMXIII",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
         listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
+            assertEquals(roman, toRomanNumber(decimal))
         }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
+            assertEquals(decimal, toDecimalNumber(roman))
         }, dynamicTest("$roman should be mapped to $decimal") {
             assertEquals(decimal, roman.toLowerCase().toDecimalNumber())
         })
@@ -80,6 +82,6 @@ internal class RomanNumberTest {
         .map {
             dynamicTest(
                 "$it should not change if you convert it in two directions"
-            ) { assertEquals(it, it.toRomanNumber().toDecimalNumber()) }
+            ) { assertEquals(it, toDecimalNumber(toRomanNumber(it))) }
         }
 }

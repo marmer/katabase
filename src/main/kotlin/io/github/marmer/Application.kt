@@ -3,13 +3,9 @@ package io.github.marmer
 internal typealias DecimalNumber = Int
 internal typealias RomanNumber = String
 
-fun main(args: Array<String>) {
-    args.forEach { arg -> println("Hello, World: $arg") }
-}
-
 private data class NumberMapping(val decimal: DecimalNumber, val roman: RomanNumber)
 
-private val NUMBER_MAPPINGS = listOf(
+private val NUMBER_MAPPINGS = arrayOf(
     NumberMapping(decimal = 900, roman = "CM"),
     NumberMapping(decimal = 1000, roman = "M"),
     NumberMapping(decimal = 400, roman = "CD"),
@@ -25,34 +21,15 @@ private val NUMBER_MAPPINGS = listOf(
     NumberMapping(decimal = 1, roman = "I"),
 )
 
-private val FROM_DECIMAL_MAPPING = NUMBER_MAPPINGS.sortedByDescending { it.decimal }
-    .map { numberMapping ->
-        numberMapping.decimal to numberMapping
-    }
+fun DecimalNumber.toRomanNumber(): RomanNumber = NUMBER_MAPPINGS
+    .sortedByDescending { (decimal) -> decimal }
+    .find { (decimal) -> this >= decimal }
+    ?.let { (decimal, roman) ->
+        roman + (this - decimal).toRomanNumber()
+    } ?: "" // Break condition
 
-private val FROM_ROMAN_MAPPING = NUMBER_MAPPINGS
-    .map { numberMapping ->
-        numberMapping.roman to numberMapping
-    }
-
-internal fun DecimalNumber.toRomanNumber(): String =
-    when {
-        this < 0 -> throw IllegalArgumentException("$this: is an unsupported negative value")
-        this == 0 -> ""
-        else -> FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
-            .second
-            .let { it.roman + (this - it.decimal).toRomanNumber() }
-    }
-
-internal fun String.toDecimalNumber(): Int =
-    FROM_ROMAN_MAPPING.find { mapping -> contains(mapping.first, ignoreCase = true) }
-        .let {
-            if (it == null) 0
-            else
-                it.second.decimal + replaceFirst(
-                    it.first,
-                    "",
-                    ignoreCase = true
-                ).toDecimalNumber()
-        }
-
+fun RomanNumber.toDecimalNumber(): DecimalNumber = NUMBER_MAPPINGS
+    .find { (_, roman) -> contains(roman, ignoreCase = true) }
+    ?.let { (decimal, roman) ->
+        decimal + replaceFirst(roman, "", ignoreCase = true).toDecimalNumber()
+    } ?: 0 //Break condition
