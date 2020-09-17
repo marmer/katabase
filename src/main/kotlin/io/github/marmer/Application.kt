@@ -3,56 +3,54 @@ package io.github.marmer
 internal typealias DecimalNumber = Int
 internal typealias RomanNumber = String
 
-fun main(args: Array<String>) {
-    args.forEach { arg -> println("Hello, World: $arg") }
-}
+data class DecimalRomanMapping(val decimal: DecimalNumber, val roman: RomanNumber)
 
-private data class NumberMapping(val decimal: DecimalNumber, val roman: RomanNumber)
-
-private val NUMBER_MAPPINGS = listOf(
-    NumberMapping(decimal = 900, roman = "CM"),
-    NumberMapping(decimal = 1000, roman = "M"),
-    NumberMapping(decimal = 400, roman = "CD"),
-    NumberMapping(decimal = 500, roman = "D"),
-    NumberMapping(decimal = 90, roman = "XC"),
-    NumberMapping(decimal = 100, roman = "C"),
-    NumberMapping(decimal = 40, roman = "XL"),
-    NumberMapping(decimal = 50, roman = "L"),
-    NumberMapping(decimal = 9, roman = "IX"),
-    NumberMapping(decimal = 10, roman = "X"),
-    NumberMapping(decimal = 4, roman = "IV"),
-    NumberMapping(decimal = 5, roman = "V"),
-    NumberMapping(decimal = 1, roman = "I"),
+val romanNumbersMappings = listOf(
+    DecimalRomanMapping(1000, "M"),
+    DecimalRomanMapping(900, "CM"),
+    DecimalRomanMapping(500, "D"),
+    DecimalRomanMapping(400, "CD"),
+    DecimalRomanMapping(100, "C"),
+    DecimalRomanMapping(90, "XC"),
+    DecimalRomanMapping(50, "L"),
+    DecimalRomanMapping(40, "XL"),
+    DecimalRomanMapping(10, "X"),
+    DecimalRomanMapping(9, "IX"),
+    DecimalRomanMapping(5, "V"),
+    DecimalRomanMapping(4, "IV"),
+    DecimalRomanMapping(1, "I"),
 )
 
-private val FROM_DECIMAL_MAPPING = NUMBER_MAPPINGS.sortedByDescending { it.decimal }
-    .map { numberMapping ->
-        numberMapping.decimal to numberMapping
+
+fun DecimalNumber.toRomanNumber(): RomanNumber {
+    if (this < 0) throw IllegalArgumentException("${this}: is an unsupported negative value")
+
+    var remainingDecimalValue = this
+    var resultingRomanValue: RomanNumber = ""
+
+    while (remainingDecimalValue > 0) {
+        romanNumbersMappings
+            .find { (decimal) -> remainingDecimalValue >= decimal }
+            ?.let { (decimal, roman) ->
+                remainingDecimalValue -= decimal
+                resultingRomanValue += roman
+            }
     }
 
-private val FROM_ROMAN_MAPPING = NUMBER_MAPPINGS
-    .map { numberMapping ->
-        numberMapping.roman to numberMapping
-    }
+    return resultingRomanValue
+}
 
-internal fun DecimalNumber.toRomanNumber(): String =
-    when {
-        this < 0 -> throw IllegalArgumentException("$this: is an unsupported negative value")
-        this == 0 -> ""
-        else -> FROM_DECIMAL_MAPPING.find { pair -> this >= pair.first }!!
-            .second
-            .let { it.roman + (this - it.decimal).toRomanNumber() }
-    }
+fun RomanNumber.toDecimalNumber(): DecimalNumber {
+    var remainingRomanValue = this.toUpperCase()
+    var resultingDecimalValue: DecimalNumber = 0
 
-internal fun String.toDecimalNumber(): Int =
-    FROM_ROMAN_MAPPING.find { mapping -> contains(mapping.first, ignoreCase = true) }
-        .let {
-            if (it == null) 0
-            else
-                it.second.decimal + replaceFirst(
-                    it.first,
-                    "",
-                    ignoreCase = true
-                ).toDecimalNumber()
-        }
+    while (remainingRomanValue.length > 0)
+        romanNumbersMappings.sortedByDescending { (decimal) -> decimal }
+            .find { (_, roman) -> remainingRomanValue.startsWith(roman) }
+            ?.let { (decimal, roman) ->
+                remainingRomanValue = remainingRomanValue.replaceFirst(roman, "", true)
+                resultingDecimalValue += decimal
+            }
 
+    return resultingDecimalValue
+}

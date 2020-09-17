@@ -17,11 +17,13 @@ internal class RomanNumberTest {
         500 to "D",
         1000 to "M",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
-        listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
-        }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
-        })
+        listOf(
+            dynamicTest("$decimal should be mapped to $roman") {
+                assertEquals(roman, decimal.toRomanNumber())
+            }, dynamicTest("$roman should be mapped to $decimal") {
+                assertEquals(decimal, roman.toDecimalNumber())
+            }
+        )
     }.flatMap { it }
 
 
@@ -35,11 +37,13 @@ internal class RomanNumberTest {
         1500 to "MD",
         3000 to "MMM",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
-        listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
-        }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
-        })
+        listOf(
+            dynamicTest("$decimal should be mapped to $roman") {
+                assertEquals(roman, decimal.toRomanNumber())
+            }, dynamicTest("$roman should be mapped to $decimal") {
+                assertEquals(decimal, roman.toDecimalNumber())
+            }
+        )
     }.flatMap { it }
 
     @TestFactory
@@ -48,11 +52,13 @@ internal class RomanNumberTest {
         9 to "IX",
         999 to "CMXCIX",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
-        listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
-        }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
-        })
+        listOf(
+            dynamicTest("$decimal should be mapped to $roman") {
+                assertEquals(roman, decimal.toRomanNumber())
+            }, dynamicTest("$roman should be mapped to $decimal") {
+                assertEquals(decimal, roman.toDecimalNumber())
+            }
+        )
     }.flatMap { it }
 
     @TestFactory
@@ -68,13 +74,16 @@ internal class RomanNumberTest {
         99 to "XCIX",
         2013 to "MMXIII",
     ).map { (decimal: DecimalNumber, roman: RomanNumber) ->
-        listOf(dynamicTest("$decimal should be mapped to $roman") {
-            assertEquals(roman, decimal.toRomanNumber())
-        }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toDecimalNumber())
-        }, dynamicTest("$roman should be mapped to $decimal") {
-            assertEquals(decimal, roman.toLowerCase().toDecimalNumber())
-        })
+        listOf(
+            dynamicTest("$decimal should be mapped to $roman") {
+                assertEquals(roman, decimal.toRomanNumber())
+            },
+            dynamicTest("$roman should be mapped to $decimal") {
+                assertEquals(decimal, roman.toDecimalNumber())
+            }, dynamicTest("$roman should be mapped to $decimal") {
+                assertEquals(decimal, roman.toLowerCase().toDecimalNumber())
+            }
+        )
     }.flatMap { it }
 
     @Test
