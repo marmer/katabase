@@ -2,7 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-var javaVersion = JavaVersion.VERSION_12
+var javaVersion = JavaVersion.VERSION_11
 val kotlinVersion = "1.4.0"
 
 plugins {
