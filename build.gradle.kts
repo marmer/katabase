@@ -37,6 +37,7 @@ dependencies {
     testImplementation("org.mockito", "mockito-core", "3.9.0")
     testImplementation("org.mockito", "mockito-junit-jupiter", "3.9.0")
     testImplementation("com.nhaarman.mockitokotlin2", "mockito-kotlin", "2.2.0")
+    testImplementation("org.rnorth.visible-assertions", "visible-assertions", "2.1.2")
 }
 
 configure<JavaPluginConvention> {
