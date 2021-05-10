@@ -10,7 +10,7 @@ class ApplicationTest {
         // Preparation
 
         // Execution
-        val result = umbrechen("AaA Bb C", 8)
+        val result = ZeilenFormatter.umbrechen("AaA Bb C", 8)
 
         // Assertion
         assertEquals("AaA Bb C", result)
@@ -21,7 +21,7 @@ class ApplicationTest {
         // Preparation
 
         // Execution
-        val result = umbrechen("AaA BbB CcC", 4)
+        val result = ZeilenFormatter.umbrechen("AaA BbB CcC", 4)
 
         // Assertion
         assertEquals(
@@ -31,4 +31,20 @@ class ApplicationTest {
                 |CcC""".trimMargin(), result
         )
     }
+
+    @Test
+    fun `Umbrueche in Woertern sollten Woerter abschneiden`() {
+        // Preparation
+
+        // Execution
+        val result = ZeilenFormatter.umbrechen("AaA BbB C", 6)
+
+        // Assertion
+        assertEquals(
+            """
+                |AaA Bb
+                |B C""".trimMargin(), result
+        )
+    }
+
 }
