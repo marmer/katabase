@@ -1,5 +1,7 @@
 package io.github.marmer
 
-fun main(args: Array<String>) {
-    args.forEach { arg -> println("Hello, World: $arg") }
-}
+fun umbrechen(text: String, maxLineLength: Int) =
+    text
+        .chunked(maxLineLength)
+        .map { it.trim() }
+        .joinToString("\n")
