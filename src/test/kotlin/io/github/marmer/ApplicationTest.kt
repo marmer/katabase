@@ -47,4 +47,29 @@ class ApplicationTest {
         )
     }
 
+    @Test
+    fun `Leere Texte sollten leer und unumgebrochen bleiben`() {
+        // Preparation
+
+        // Execution
+        val result = ZeilenFormatter.umbrechen("      ", 2)
+
+        // Assertion
+        assertEquals(
+            "".trimMargin(), result
+        )
+    }
+
+    @Test
+    fun `Leerzeichen am sollten nur soweit wie noetig beruecksichtigt werden`() {
+        // Preparation
+
+        // Execution
+        val result = ZeilenFormatter.umbrechen(
+            "    \n  AaA   \n \n    \t \n Bb C   \n\n".trimIndent(), 8
+        )
+
+        // Assertion
+        assertEquals("AaA Bb C", result)
+    }
 }
