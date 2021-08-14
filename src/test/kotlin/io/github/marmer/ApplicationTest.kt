@@ -20,7 +20,10 @@ class ApplicationTest {
         assertEquals("MOPS", translateFromMorse("-- --- .--. ..."))
     }
 
-    // TODO: marmer 14.08.2021 Multiple Words
+    @Test
+    fun `Translation of multiple words should be possble`() {
+        assertEquals("DER MOPS", translateFromMorse("-.. . .-.   -- --- .--. ..."))
+    }
+
     // TODO: marmer 14.08.2021 Timing
-    // TODO: marmer 14.08.2021 Unknown code
 }

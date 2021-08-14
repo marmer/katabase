@@ -14,11 +14,19 @@ private val dict by lazy {
 }
 
 fun translateFromMorse(morse: String): String =
-    morse.split(" ")
-        .map {
-            dict[it] ?: throw IllegalArgumentException(it)
-        }
-        .joinToString("")
+    morse.toMorseWord()
+        .map(::toReadableWord)
+        .joinToString(" ")
+
+private fun toReadableWord(word: String) = word.toMorseSymbol()
+    .map(::toSymbol)
+    .joinToString("")
+
+private fun String.toMorseSymbol() = split(" ")
+
+private fun toSymbol(morseSymbol: String) = dict[morseSymbol] ?: ""
+
+private fun String.toMorseWord() = split("   ")
 
 
 
