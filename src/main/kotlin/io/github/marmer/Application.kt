@@ -13,6 +13,21 @@ private val dict by lazy {
         .toMap()
 }
 
+fun translateFromElectricalSignalMorse(electricalMorse: String): String =
+    translateFromMorse(electricalMorse.toMorse())
+
+private fun String.toMorse(): String =
+    replace("0000000".repeat(timing()), "   ")
+        .replace("000".repeat(timing()), " ")
+        .replace("111".repeat(timing()), "-")
+        .replace("1".repeat(timing()), ".")
+        .replace("0".repeat(timing()), "")
+
+private fun String.timing() = split(Regex("1+"))
+    .map { it.length }
+    .filter { it > 0 }
+    .minOrNull() ?: throw IllegalArgumentException("Not able to determine timing")
+
 fun translateFromMorse(morse: String): String =
     morse.toMorseWord()
         .map(::toReadableWord)

@@ -25,5 +25,27 @@ class ApplicationTest {
         assertEquals("DER MOPS", translateFromMorse("-.. . .-.   -- --- .--. ..."))
     }
 
-    // TODO: marmer 14.08.2021 Timing
+    @Test
+    fun `Electrical Signal Translation`() {
+        assertEquals(
+            "DER MOPS",
+            translateFromElectricalSignalMorse("11101010001000101110100000001110111000111011101110001011101110100010101")
+        )
+    }
+
+    @Test
+    fun `Electrical Signal Translation with timing 2`() {
+        assertEquals(
+            "DER MOPS",
+            translateFromElectricalSignalMorse("1111110011001100000011000000110011111100110000000000000011111100111111000000111111001111110011111100000011001111110011111100110000001100110011")
+        )
+    }
+
+    @Test
+    fun `Electrical Signal Translation with timing 3`() {
+        assertEquals(
+            "DER MOPS",
+            translateFromElectricalSignalMorse("111111111000111000111000000000111000000000111000111111111000111000000000000000000000111111111000111111111000000000111111111000111111111000111111111000000000111000111111111000111111111000111000000000111000111000111")
+        )
+    }
 }
