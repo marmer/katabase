@@ -14,7 +14,11 @@ private val dict by lazy {
 }
 
 fun translateFromMorse(morse: String): String =
-    dict[morse] ?: throw IllegalArgumentException(morse)
+    morse.split(" ")
+        .map {
+            dict[it] ?: throw IllegalArgumentException(it)
+        }
+        .joinToString("")
 
 
 
