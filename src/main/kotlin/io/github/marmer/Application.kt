@@ -16,12 +16,24 @@ private val dict by lazy {
 fun translateFromElectricalSignalMorse(electricalMorse: String): String =
     translateFromMorse(electricalMorse.toMorse())
 
-private fun String.toMorse(): String =
-    replace("0000000".repeat(timing()), "   ")
-        .replace("000".repeat(timing()), " ")
-        .replace("111".repeat(timing()), "-")
-        .replace("1".repeat(timing()), ".")
-        .replace("0".repeat(timing()), "")
+private val WORD_PAUSE_ELECTRICAL_SIGNAL = "0000000"
+private val DOT_DASH_PAUSE_ELECTRICAL_SIGNAL = "000"
+private val DASH_ELECTRICAL_SIGNAL = "111"
+private val DOT_ELECTRICAL_SIGNAL = "1"
+private val ELECTRICAL_SIGNAL_PAUSE = "0"
+
+private val WORD_PAUSE = "   "
+private val DOT_DASH_PAUSE = " "
+private val DASH = "-"
+private val DOT = "."
+
+private fun String.toMorse(): String {
+    return replace(WORD_PAUSE_ELECTRICAL_SIGNAL.repeat(timing()), WORD_PAUSE)
+        .replace(DOT_DASH_PAUSE_ELECTRICAL_SIGNAL.repeat(timing()), DOT_DASH_PAUSE)
+        .replace(DASH_ELECTRICAL_SIGNAL.repeat(timing()), DASH)
+        .replace(DOT_ELECTRICAL_SIGNAL.repeat(timing()), DOT)
+        .replace(ELECTRICAL_SIGNAL_PAUSE.repeat(timing()), "")
+}
 
 private fun String.timing() = split(Regex("1+"))
     .map { it.length }
