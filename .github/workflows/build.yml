@@ -42,8 +42,7 @@ jobs:
 
       - name: Prepare source directories for sonar
         run: |
-          mkdir -p hamcrest-matcher-generator-annotationprocessor/src/{main,test}/{java,kotlin}
-          mkdir -p hamcrest-matcher-generator-dependencies/src/{main,test}/{java,kotlin}
+          mkdir -p src/{main,test}/{java,kotlin}
         if: success()
 
       - name: Build Maven
