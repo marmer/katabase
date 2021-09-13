@@ -56,7 +56,7 @@ tasks.jacocoTestReport {
 sonarqube {
     properties {
         // must be unique in a given SonarQube instance
-        property("sonar.projectKey", "io.github.marmer.katas:katabase")
+        property("sonar.projectKey", "marmer_katabase")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "marmer-github")
         // --- optional properties ---
