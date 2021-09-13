@@ -65,5 +65,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw -B sonar:sonar -am --projects "hamcrest-matcher-generator-annotationprocessor,hamcrest-matcher-generator-dependencies"
+        run: ./mvnw -B sonar:sonar"
         if: success()
