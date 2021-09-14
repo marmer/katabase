@@ -16,7 +16,7 @@ fun app(readInput: () -> String, writeOutput: (String) -> Unit) {
             when (line) {
                 "Der" -> "-.. . .-."
                 "Mops" -> "-- --- .--. ..."
-                else -> "-.. . .-.   -- --- .--. ...x"
+                else -> "-.. . .-.   -- --- .--. ..."
             }
         )
 
