@@ -194,3 +194,4 @@ workspace.cachenpm
 coverage/
 junit.xml
 test-report.xml
+*.iml
