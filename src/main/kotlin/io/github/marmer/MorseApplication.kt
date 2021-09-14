@@ -1,5 +1,6 @@
 package io.github.marmer
 
+import io.github.marmer.domain.decodeMorse
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -12,14 +13,7 @@ fun app(readInput: () -> String, writeOutput: (String) -> Unit) {
     var line = readInput()
 
     while (!isStopLine(line)) {
-        writeOutput(
-            when (line) {
-                "Der" -> "-.. . .-."
-                "Mops" -> "-- --- .--. ..."
-                else -> "-.. . .-.   -- --- .--. ..."
-            }
-        )
-
+        writeOutput(decodeMorse(line))
         line = readInput()
     }
 }

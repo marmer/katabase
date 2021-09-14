@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Timeout
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class ApplicationKtIT {
+internal class MorseApplicationKtIT {
     private var underTest = ::app
 
     @Test
@@ -26,7 +26,13 @@ class ApplicationKtIT {
     @Test
     fun `should serve the translations until stop`() {
         // Preparation
-        val commands: Queue<String> = LinkedList(listOf("Der", "Mops", "Der Mops", "quit"))
+        val commands: Queue<String> = LinkedList(
+            listOf(
+                "-.. . .-.",
+                "-- --- .--. ...",
+                "-.. . .-.   -- --- .--. ...", "quit"
+            )
+        )
         val results = ArrayList<String>()
 
         // Execution
@@ -34,9 +40,7 @@ class ApplicationKtIT {
 
         // Assertion
         assertThat(results).containsExactly(
-            "-.. . .-.",
-            "-- --- .--. ...",
-            "-.. . .-.   -- --- .--. ..."
+            "DER", "MOPS", "DER MOPS"
         ).inOrder()
     }
 }
