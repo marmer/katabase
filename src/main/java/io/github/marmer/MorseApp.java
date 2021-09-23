@@ -11,14 +11,15 @@ public class MorseApp {
   private final MorseDecoder morseDecoder;
 
   public static void main(final String... args) {
-    final var reader = new BufferedReader(new InputStreamReader(System.in));
+
     new MorseApp(() -> {
-      try {
+      try (final var reader = new BufferedReader(new InputStreamReader(System.in))) {
         return reader.readLine();
       } catch (final IOException e) {
         throw new RuntimeException(e);
       }
-    }, System.out::println, new MorseDecoder(new LatinMorseDictionary())).run();
+    }, System.out::println, new ElectricSignalMorseDecoderDecorator(
+        new PlainMorseDecoder(new LatinMorseDictionary()))).run();
   }
 
   public MorseApp(final InputProvider inputProvider, final OutputConsumer outputConsumer,

@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class MorseDecoderTest {
 
-  private final MorseDecoder underTest = new MorseDecoder(new LatinMorseDictionary());
+  private final MorseDecoder underTest = new PlainMorseDecoder(new LatinMorseDictionary());
 
   private static Object[][] translations() {
     return new Object[][]{

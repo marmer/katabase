@@ -1,49 +1,6 @@
 package io.github.marmer;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.jetbrains.annotations.NotNull;
+public interface MorseDecoder {
 
-public class MorseDecoder {
-
-  private final MorseDictionary morseDict;
-
-  public MorseDecoder(final MorseDictionary morseDict) {
-    this.morseDict = morseDict;
-  }
-
-  public String decode(final String s) {
-    if (s == null || s.isBlank()) {
-      return "";
-    }
-    return decodeLine(s);
-  }
-
-  @NotNull
-  private String decodeLine(final String s) {
-    return Stream.of(splitToWords(s))
-        .map(this::decodeWord).collect(Collectors.joining(" "));
-  }
-
-  @NotNull
-  private String decodeWord(final String word) {
-    return Arrays.stream(splitToSymbols(word))
-        .map(this::decodeSymbol)
-        .collect(Collectors.joining(""));
-  }
-
-  private String decodeSymbol(final String symbol) {
-    return morseDict.get(symbol).orElse("?");
-  }
-
-  @NotNull
-  private String[] splitToSymbols(final String it) {
-    return it.split(" ");
-  }
-
-  @NotNull
-  private String[] splitToWords(final String s) {
-    return s.split(" {3}");
-  }
+  String decode(String s);
 }
