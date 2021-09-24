@@ -1,8 +1,6 @@
 package io.github.marmer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.inject.Inject;
 
 public class MorseApp {
 
@@ -11,17 +9,13 @@ public class MorseApp {
   private final MorseDecoder morseDecoder;
 
   public static void main(final String... args) {
-
-    new MorseApp(() -> {
-      try (final var reader = new BufferedReader(new InputStreamReader(System.in))) {
-        return reader.readLine();
-      } catch (final IOException e) {
-        throw new RuntimeException(e);
-      }
-    }, System.out::println, new ElectricSignalMorseDecoderDecorator(
-        new PlainMorseDecoder(new LatinMorseDictionary()))).run();
+    DaggerMorseAppFactory
+        .create()
+        .createMorseApp()
+        .run();
   }
 
+  @Inject
   public MorseApp(final InputProvider inputProvider, final OutputConsumer outputConsumer,
       final MorseDecoder morseDecoder) {
     this.inputProvider = inputProvider;

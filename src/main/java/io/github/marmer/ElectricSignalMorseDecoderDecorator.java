@@ -1,12 +1,14 @@
 package io.github.marmer;
 
 import java.util.stream.Stream;
+import javax.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
 public class ElectricSignalMorseDecoderDecorator implements MorseDecoder {
 
   private final MorseDecoder morseDecoder;
 
+  @Inject
   public ElectricSignalMorseDecoderDecorator(final MorseDecoder morseDecoder) {
     this.morseDecoder = morseDecoder;
   }

@@ -3,11 +3,16 @@ package io.github.marmer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import javax.inject.Inject;
 
 public class LatinMorseDictionary implements MorseDictionary {
 
   private static final Map<String, String> morseDict =
       new HashMap<>();
+
+  @Inject
+  public LatinMorseDictionary() {
+  }
 
   static {
     morseDict.put(".-", "A");

@@ -3,12 +3,14 @@ package io.github.marmer;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
 public class PlainMorseDecoder implements MorseDecoder {
 
   private final MorseDictionary morseDict;
 
+  @Inject
   public PlainMorseDecoder(final MorseDictionary morseDict) {
     this.morseDict = morseDict;
   }
