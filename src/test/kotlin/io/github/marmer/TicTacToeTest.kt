@@ -1,11 +1,14 @@
 package io.github.marmer
 
 import io.github.marmer.TicTacToe.Player
-import org.junit.jupiter.api.Assertions
+import io.github.marmer.TicTacToe.Player.O
+import io.github.marmer.TicTacToe.Player.X
+import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -18,13 +21,13 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.O, 2, 2) //Middle
+        underTest.set(O, 2, 2) //Middle
 
         // Assertion
-        Assertions.assertArrayEquals(
+        assertArrayEquals(
             arrayOf<Array<Player?>>(
                 arrayOf(null, null, null),
-                arrayOf(null, Player.O, null),
+                arrayOf(null, O, null),
                 arrayOf(null, null, null)
             ), underTest.getBoard()
         )
@@ -36,14 +39,14 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.O, 2, 2)
-        underTest.set(Player.X, 1, 1)
+        underTest.set(O, 2, 2)
+        underTest.set(X, 1, 1)
 
         // Assertion
-        Assertions.assertArrayEquals(
+        assertArrayEquals(
             arrayOf<Array<Player?>>(
-                arrayOf(Player.X, null, null),
-                arrayOf(null, Player.O, null),
+                arrayOf(X, null, null),
+                arrayOf(null, O, null),
                 arrayOf(null, null, null)
             ), underTest.getBoard()
         )
@@ -55,16 +58,16 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.O, 2, 2)
-        underTest.set(Player.X, 1, 1)
+        underTest.set(O, 2, 2)
+        underTest.set(X, 1, 1)
 
         underTest.getBoard()[0][0] = null;
 
         // Assertion
-        Assertions.assertArrayEquals(
+        assertArrayEquals(
             arrayOf<Array<Player?>>(
-                arrayOf(Player.X, null, null),
-                arrayOf(null, Player.O, null),
+                arrayOf(X, null, null),
+                arrayOf(null, O, null),
                 arrayOf(null, null, null)
             ), underTest.getBoard()
         )
@@ -86,7 +89,29 @@ class TicTacToeTest {
 
         // Execution
         val thrown =
-            assertThrows<TicTacToe.CoordinateOutOfFieldException> { underTest.set(Player.X, x, y) }
+            assertThrows<TicTacToe.CoordinateOutOfFieldException> { underTest.set(X, x, y) }
+
+        // Assertion
+        assertEquals("Coordinate $x,$y is out of range", thrown.message)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "0,1",
+        "4,1",
+        "1,0",
+        "4,0"
+    )
+    fun `Beim Versuch ein Feld ausserhalb des Spielfelts abzufragen fliegt eine vernuenftige Exception`(
+        x: Int,
+        y: Int
+    ) {
+        // Preparation
+        val underTest = TicTacToe()
+
+        // Execution
+        val thrown =
+            assertThrows<TicTacToe.CoordinateOutOfFieldException> { underTest.getField(x, y) }
 
         // Assertion
         assertEquals("Coordinate $x,$y is out of range", thrown.message)
@@ -108,12 +133,12 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.O, 1, 1)
-        underTest.set(Player.X, 2, 2)
+        underTest.set(O, 1, 1)
+        underTest.set(X, 2, 2)
 
         // Execution
         val thrown =
-            assertThrows<TicTacToe.FieldAlreadyInUseException> { underTest.set(Player.O, x, y) }
+            assertThrows<TicTacToe.FieldAlreadyInUseException> { underTest.set(O, x, y) }
 
         // Assertion
         assertEquals("Field $x,$y is already in use", thrown.message)
@@ -146,15 +171,15 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.X, xX1, yX1)
-        underTest.set(Player.O, xO1, yO1)
-        underTest.set(Player.X, xX2, yX2)
-        underTest.set(Player.O, xO2, yO2)
-        underTest.set(Player.X, xX3, yX3)
+        underTest.set(X, xX1, yX1)
+        underTest.set(O, xO1, yO1)
+        underTest.set(X, xX2, yX2)
+        underTest.set(O, xO2, yO2)
+        underTest.set(X, xX3, yX3)
 
         // Execution
         val thrown =
-            assertThrows<TicTacToe.GameFinishedException> { underTest.set(Player.O, xO2, yO2) }
+            assertThrows<TicTacToe.GameFinishedException> { underTest.set(O, xO2, yO2) }
 
         // Assertion
         assertEquals("Game is aleady finished", thrown.message)
@@ -184,18 +209,18 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.X, xX1, yX1)
-        underTest.set(Player.O, xO1, yO1)
-        underTest.set(Player.X, xX2, yX2)
-        underTest.set(Player.O, xO2, yO2)
-        underTest.set(Player.X, xX3, yX3)
+        underTest.set(X, xX1, yX1)
+        underTest.set(O, xO1, yO1)
+        underTest.set(X, xX2, yX2)
+        underTest.set(O, xO2, yO2)
+        underTest.set(X, xX3, yX3)
 
         // Execution
         val thrown =
-            assertThrows<TicTacToe.GameFinishedException> { underTest.set(Player.O, xO2, yO2) }
+            assertThrows<TicTacToe.GameFinishedException> { underTest.set(O, xO2, yO2) }
 
         // Assertion
-        assertTrue(underTest.isGameWon(), "Gewonnen")
+        assertTrue(underTest.isGameWon(), "Won")
     }
 
     @ParameterizedTest
@@ -221,10 +246,10 @@ class TicTacToeTest {
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.X, xX1, yX1)
-        underTest.set(Player.O, xO1, yO1)
-        underTest.set(Player.X, xX2, yX2)
-        underTest.set(Player.O, xO2, yO2)
+        underTest.set(X, xX1, yX1)
+        underTest.set(O, xO1, yO1)
+        underTest.set(X, xX2, yX2)
+        underTest.set(O, xO2, yO2)
 
         // Execution
 
@@ -259,16 +284,15 @@ class TicTacToeTest {
         assertFalse(underTest.isGameWon(), "Gewonnen")
     }
 
-
     @Test
     fun `ToString liefert lesbare Darstellung des Feldes`() {
         // Preparation
         val underTest = TicTacToe()
 
         // Execution
-        underTest.set(Player.X, 1, 1)
-        underTest.set(Player.O, 2, 2)
-        underTest.set(Player.X, 3, 3)
+        underTest.set(X, 1, 1)
+        underTest.set(O, 2, 2)
+        underTest.set(X, 3, 3)
 
         // Assertion
         assertEquals(
@@ -280,4 +304,227 @@ class TicTacToeTest {
             underTest.toString()
         )
     }
+
+    //####### Variable Size Tests ###########
+
+    @Test
+    fun `ToString mit anderer Groesse liefert lesbare Darstellung des Feldes`() {
+        // Preparation
+        val underTest = TicTacToe(5)
+
+        // Execution
+        underTest.set(X, 1, 1)
+        underTest.set(O, 2, 2)
+        underTest.set(X, 5, 5)
+
+        // Assertion
+        assertEquals(
+            """
+            X....
+            .O...
+            .....
+            .....
+            ....X
+        """.trimIndent(),
+            underTest.toString()
+        )
+    }
+
+    @Test
+    fun `Kleinere Felder als in groesse 3 sollten nicht moeglich sein`() {
+        // Preparation
+
+        // Execution
+        val thrown = assertThrows<TicTacToe.InvalidFieldSizeException> { TicTacToe(2) }
+
+        // Assertion
+        assertEquals("The field size must at least be 3", thrown.message)
+    }
+
+    companion object {
+        @JvmStatic
+        fun winConditionVarSize() = arrayOf(
+            // Win Setups
+            arrayOf(
+                TicTacToe(4),
+                listOf( //Diagonal 1
+                    X to (1 to 1), O to (2 to 1),
+                    X to (2 to 2), O to (3 to 1),
+                    X to (3 to 3), O to (4 to 1),
+                    X to (4 to 4)
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(4),
+                listOf( //Diagonal 2
+                    X to (1 to 4), O to (4 to 2),
+                    X to (2 to 3), O to (4 to 3),
+                    X to (3 to 2), O to (4 to 4),
+                    X to (4 to 1)
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf( //Diagonal 1
+                    X to (1 to 1), O to (2 to 1),
+                    X to (2 to 2), O to (3 to 1),
+                    X to (3 to 3), O to (4 to 1),
+                    X to (4 to 4), O to (5 to 1),
+                    X to (5 to 5)
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf( //Diagonal 2
+                    X to (1 to 5), O to (5 to 2),
+                    X to (2 to 4), O to (5 to 3),
+                    X to (3 to 3), O to (5 to 4),
+                    X to (4 to 2), O to (5 to 5),
+                    X to (5 to 1)
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(4),
+                listOf(
+                    // Horizontal
+                    X to (1 to 2), O to (1 to 3),
+                    X to (2 to 2), O to (2 to 3),
+                    X to (3 to 2), O to (3 to 3),
+                    X to (4 to 2),
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf(
+                    // Horizontal
+                    X to (1 to 2), O to (1 to 3),
+                    X to (2 to 2), O to (2 to 3),
+                    X to (3 to 2), O to (3 to 3),
+                    X to (4 to 2), O to (4 to 3),
+                    X to (5 to 2),
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(4),
+                listOf(
+                    // Vertical
+                    X to (2 to 1), O to (3 to 1),
+                    X to (2 to 2), O to (3 to 2),
+                    X to (2 to 3), O to (3 to 3),
+                    X to (2 to 4),
+                ), true
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf(
+                    // Vertical
+                    X to (2 to 1), O to (3 to 1),
+                    X to (2 to 2), O to (3 to 2),
+                    X to (2 to 3), O to (3 to 3),
+                    X to (2 to 4), O to (3 to 4),
+                    X to (2 to 5),
+                ), true
+            ),
+
+            //NonWinSetups
+            arrayOf(
+                TicTacToe(4),
+                listOf(
+                    //Diagonal 1
+                    X to (1 to 1), O to (2 to 1),
+                    X to (2 to 2), O to (3 to 1),
+                    X to (3 to 3), O to (4 to 1),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(4),
+                listOf(
+                    //Diagonal 2
+                    X to (1 to 4), O to (4 to 2),
+                    X to (2 to 3), O to (4 to 3),
+                    X to (3 to 2), O to (4 to 4),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf(
+                    //Diagonal 1
+                    X to (1 to 1), O to (2 to 1),
+                    X to (2 to 2), O to (3 to 1),
+                    X to (3 to 3), O to (4 to 1),
+                    X to (4 to 4), O to (5 to 1),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf(
+                    //Diagonal 2
+                    X to (1 to 5), O to (5 to 2),
+                    X to (2 to 4), O to (5 to 3),
+                    X to (3 to 3), O to (5 to 4),
+                    X to (4 to 2), O to (5 to 5),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(4),
+                listOf(
+                    // Horizontal
+                    X to (1 to 2), O to (1 to 3),
+                    X to (2 to 2), O to (2 to 3),
+                    X to (3 to 2), O to (3 to 3),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf(
+                    // Horizontal
+                    X to (1 to 2), O to (1 to 3),
+                    X to (2 to 2), O to (2 to 3),
+                    X to (3 to 2), O to (3 to 3),
+                    X to (4 to 2), O to (4 to 3),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(4),
+                listOf(
+                    // Vertical
+                    X to (2 to 1), O to (3 to 1),
+                    X to (2 to 2), O to (3 to 2),
+                    X to (2 to 3), O to (3 to 3),
+                ), false
+            ),
+            arrayOf(
+                TicTacToe(5),
+                listOf(
+                    // Vertical
+                    X to (2 to 1), O to (3 to 1),
+                    X to (2 to 2), O to (3 to 2),
+                    X to (2 to 3), O to (3 to 3),
+                    X to (2 to 4), O to (3 to 4),
+                ), false
+            ),
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("winConditionVarSize")
+    fun `Winning Conditions with different Sizes should work`(
+        underTest: TicTacToe,
+        steps: List<Pair<Player, Pair<Int, Int>>>,
+        expectedWinResult: Boolean
+    ) {
+        // Preparation
+        steps.forEach { (player, coordinate) ->
+            val (x, y) = coordinate
+            underTest.set(player, x, y)
+        }
+
+
+        // Execution
+        val result = underTest.isGameWon()
+
+        // Assertion
+        assertEquals(expectedWinResult, result, "Win Result")
+    }
+
 }

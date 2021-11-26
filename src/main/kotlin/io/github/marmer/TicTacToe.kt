@@ -1,18 +1,21 @@
 package io.github.marmer
 
-class TicTacToe {
+class TicTacToe(private val boardSize: Int = 3) {
+    init {
+        if (boardSize < 3) throw InvalidFieldSizeException(3)
+    }
+
     private var playerOfLastMove: Player? = null
 
-    private val board: Array<Array<Player?>> = arrayOf(
-        arrayOf(null, null, null),
-        arrayOf(null, null, null),
-        arrayOf(null, null, null)
-    )
+    private val board: Array<Array<Player?>> =
+        (1..boardSize).map {
+            (1..boardSize).map { null }.toTypedArray<Player?>()
+        }.toTypedArray()
 
     fun set(player: Player, x: Int, y: Int) = when {
         isDoublwMoveTryFor(player) -> throw DoubleMoveException(player)
         isGameWon() -> throw GameFinishedException()
-        isValidCoordinate(x, y) -> throw CoordinateOutOfFieldException(x, y)
+        isCoordinateInField(x, y) -> throw CoordinateOutOfFieldException(x, y)
         isFieldAlreadyInUse(x, y) -> throw FieldAlreadyInUseException(x, y)
         else -> {
             board[x - 1][y - 1] = player
@@ -22,26 +25,40 @@ class TicTacToe {
 
     private fun isFieldAlreadyInUse(x: Int, y: Int) = board[x - 1][y - 1] != null
 
-    private fun isValidCoordinate(x: Int, y: Int) = !(x in 1..3 && y in 1..3)
+    private fun isCoordinateInField(x: Int, y: Int) =
+        !(x in 1..boardSize) || !(y in 1..boardSize)
 
     private fun isDoublwMoveTryFor(player: Player) = playerOfLastMove == player
 
-    fun isGameWon(): Boolean =
-        isWinnerRow(listOf(getField(1, 1), getField(2, 1), getField(3, 1))) || //H1
-                isWinnerRow(listOf(getField(1, 2), getField(2, 2), getField(3, 2))) || //H2
-                isWinnerRow(listOf(getField(1, 3), getField(2, 3), getField(3, 3))) || //H3
-                isWinnerRow(listOf(getField(1, 1), getField(1, 2), getField(1, 3))) || //V1
-                isWinnerRow(listOf(getField(2, 1), getField(2, 2), getField(2, 3))) || //V2
-                isWinnerRow(listOf(getField(3, 1), getField(3, 2), getField(3, 3))) || //V3
-                isWinnerRow(listOf(getField(1, 1), getField(2, 2), getField(3, 3))) || //D1
-                isWinnerRow(listOf(getField(1, 3), getField(2, 2), getField(3, 1)))  //D2
+    fun isGameWon(): Boolean {
+        val rows = (1..boardSize).map { y ->
+            (1..boardSize).map { x -> getField(x, y) }
+        }
 
-    private fun isWinnerRow(fieldsInRow: List<Player?>) =
-        fieldsInRow.count {
-            it == Player.O
-        } == 3 || fieldsInRow.count { it == Player.X } == 3
+        val columns = (1..boardSize).map { x ->
+            (1..boardSize).map { y -> getField(x, y) }
+        }
 
-    fun getField(x: Int, y: Int): Player? = board[x - 1][y - 1]
+        val diagonal1 = (1..boardSize).map {
+            getField(it, it)
+        }
+        val diagonal2 = (1..boardSize).map {
+            getField(it, boardSize - (it - 1))
+        }
+
+        return (rows + columns + listOf(diagonal1) + listOf(diagonal2))
+            .any { isWinningLine(it) }
+    }
+
+    private fun isWinningLine(lineOfFields: List<Player?>): Boolean {
+        val numberOfFieldsByPlayer = lineOfFields.groupBy { it }
+        return numberOfFieldsByPlayer.get(Player.X)?.size == boardSize ||
+                numberOfFieldsByPlayer.get(Player.O)?.size == boardSize
+    }
+
+    fun getField(x: Int, y: Int): Player? =
+        if (isCoordinateInField(x, y)) throw CoordinateOutOfFieldException(x, y)
+        else board[x - 1][y - 1]
 
     fun getBoard(): Array<Array<Player?>> =
         board.map { it.copyOf() }
@@ -63,13 +80,14 @@ class TicTacToe {
     class DoubleMoveException(player: Player) :
         RuntimeException("You can only set one field at a time player $player")
 
+    class InvalidFieldSizeException(minSize: Int) :
+        RuntimeException("The field size must at least be $minSize")
+
 
     override fun toString(): String {
-        return """
-            ${fieldString(1, 1)}${fieldString(2, 1)}${fieldString(3, 1)}
-            ${fieldString(1, 2)}${fieldString(2, 2)}${fieldString(3, 2)}
-            ${fieldString(1, 3)}${fieldString(2, 3)}${fieldString(3, 3)}
-        """.trimIndent()
+        return (1..boardSize).map { x ->
+            (1..boardSize).map { y -> fieldString(x, y) }.joinToString("")
+        }.joinToString("\n")
     }
 
     private fun fieldString(x: Int, y: Int): String {
