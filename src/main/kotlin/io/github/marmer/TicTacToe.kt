@@ -1,11 +1,11 @@
 package io.github.marmer
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
-class TicTacToe(private val boardSize: Int = 3) {
+class TicTacToe(
+    private val boardSize: Int = 3,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
+) {
     init {
         if (boardSize < 3) throw InvalidFieldSizeException(3)
     }
@@ -36,17 +36,15 @@ class TicTacToe(private val boardSize: Int = 3) {
     private fun isDoublwMoveTryFor(player: Player) = playerOfLastMove == player
 
 
-    private val dispatcher = Dispatchers.Default
-
     /**
      * WARNING!!! This method is not threadsafe because the data accessed within this method are mutable!
      */
     fun isGameWon(): Boolean = runBlocking {
         val rows =
-            async(dispatcher) {
+            async(coroutineDispatcher) {
                 (1..boardSize).map { y ->
                     (1..boardSize).map { x ->
-                        async(dispatcher) {
+                        async(coroutineDispatcher) {
                             getField(x, y)
                         }
                     }.awaitAll()
@@ -55,10 +53,10 @@ class TicTacToe(private val boardSize: Int = 3) {
 
 
         val columns =
-            async(dispatcher) {
+            async(coroutineDispatcher) {
                 (1..boardSize).map { x ->
                     (1..boardSize).map { y ->
-                        async(dispatcher) {
+                        async(coroutineDispatcher) {
                             getField(x, y)
                         }
                     }.awaitAll()
@@ -67,14 +65,14 @@ class TicTacToe(private val boardSize: Int = 3) {
 
 
         val diagonal1 =
-            async(dispatcher) {
+            async(coroutineDispatcher) {
                 listOf((1..boardSize).map {
                     getField(it, it)
                 })
             }
 
         val diagonal2 =
-            async(dispatcher) {
+            async(coroutineDispatcher) {
                 listOf((1..boardSize).map {
                     getField(it, boardSize - (it - 1))
                 })

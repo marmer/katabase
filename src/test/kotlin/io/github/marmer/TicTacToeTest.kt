@@ -3,6 +3,7 @@ package io.github.marmer
 import io.github.marmer.TicTacToe.Player
 import io.github.marmer.TicTacToe.Player.O
 import io.github.marmer.TicTacToe.Player.X
+import kotlinx.coroutines.Dispatchers
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -18,7 +19,7 @@ class TicTacToeTest {
     @Test
     fun `Soll ganzes Board darstellen`() {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(O, 2, 2) //Middle
@@ -36,7 +37,7 @@ class TicTacToeTest {
     @Test
     fun `Es sollte moeglich sein mehrere unterschiedliche Felder nacheinander zu besetzen`() {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(O, 2, 2)
@@ -55,7 +56,7 @@ class TicTacToeTest {
     @Test
     fun `Das Board sollte immutable sein`() {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(O, 2, 2)
@@ -85,7 +86,7 @@ class TicTacToeTest {
         y: Int
     ) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         val thrown =
@@ -107,7 +108,7 @@ class TicTacToeTest {
         y: Int
     ) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         val thrown =
@@ -130,7 +131,7 @@ class TicTacToeTest {
         player: Player
     ) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(O, 1, 1)
@@ -168,7 +169,7 @@ class TicTacToeTest {
         xO3: Int, yO3: Int, //O Not Allowed Move
     ) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(X, xX1, yX1)
@@ -206,7 +207,7 @@ class TicTacToeTest {
         xO2: Int, yO2: Int, //O 2. Move
     ) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(X, xX1, yX1)
@@ -243,7 +244,7 @@ class TicTacToeTest {
         xO2: Int, yO2: Int, //O 2. Move
     ) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(X, xX1, yX1)
@@ -261,7 +262,7 @@ class TicTacToeTest {
     @CsvSource("O", "X")
     fun `isWon sollte bei nicht gewonnenen Kombinationen false liefern`(player: Player) {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(player, 1, 1)
@@ -276,7 +277,7 @@ class TicTacToeTest {
     @Test
     fun `isWon sollte bei leeremFeld false liefern`() {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
 
@@ -287,7 +288,7 @@ class TicTacToeTest {
     @Test
     fun `ToString liefert lesbare Darstellung des Feldes`() {
         // Preparation
-        val underTest = TicTacToe()
+        val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
 
         // Execution
         underTest.set(X, 1, 1)
@@ -310,7 +311,7 @@ class TicTacToeTest {
     @Test
     fun `ToString mit anderer Groesse liefert lesbare Darstellung des Feldes`() {
         // Preparation
-        val underTest = TicTacToe(5)
+        val underTest = TicTacToe(5, Dispatchers.Default)
 
         // Execution
         underTest.set(X, 1, 1)
@@ -335,7 +336,12 @@ class TicTacToeTest {
         // Preparation
 
         // Execution
-        val thrown = assertThrows<TicTacToe.InvalidFieldSizeException> { TicTacToe(2) }
+        val thrown = assertThrows<TicTacToe.InvalidFieldSizeException> {
+            TicTacToe(
+                2,
+                Dispatchers.Default
+            )
+        }
 
         // Assertion
         assertEquals("The field size must at least be 3", thrown.message)
@@ -346,7 +352,7 @@ class TicTacToeTest {
         fun winConditionVarSize() = arrayOf(
             // Win Setups
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf( //Diagonal 1
                     X to (1 to 1), O to (2 to 1),
                     X to (2 to 2), O to (3 to 1),
@@ -355,7 +361,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf( //Diagonal 2
                     X to (1 to 4), O to (4 to 2),
                     X to (2 to 3), O to (4 to 3),
@@ -364,7 +370,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf( //Diagonal 1
                     X to (1 to 1), O to (2 to 1),
                     X to (2 to 2), O to (3 to 1),
@@ -374,7 +380,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf( //Diagonal 2
                     X to (1 to 5), O to (5 to 2),
                     X to (2 to 4), O to (5 to 3),
@@ -384,7 +390,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf(
                     // Horizontal
                     X to (1 to 2), O to (1 to 3),
@@ -394,7 +400,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf(
                     // Horizontal
                     X to (1 to 2), O to (1 to 3),
@@ -405,7 +411,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf(
                     // Vertical
                     X to (2 to 1), O to (3 to 1),
@@ -415,7 +421,7 @@ class TicTacToeTest {
                 ), true
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf(
                     // Vertical
                     X to (2 to 1), O to (3 to 1),
@@ -428,7 +434,7 @@ class TicTacToeTest {
 
             //NonWinSetups
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf(
                     //Diagonal 1
                     X to (1 to 1), O to (2 to 1),
@@ -437,7 +443,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf(
                     //Diagonal 2
                     X to (1 to 4), O to (4 to 2),
@@ -446,7 +452,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf(
                     //Diagonal 1
                     X to (1 to 1), O to (2 to 1),
@@ -456,7 +462,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf(
                     //Diagonal 2
                     X to (1 to 5), O to (5 to 2),
@@ -466,7 +472,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf(
                     // Horizontal
                     X to (1 to 2), O to (1 to 3),
@@ -475,7 +481,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf(
                     // Horizontal
                     X to (1 to 2), O to (1 to 3),
@@ -485,7 +491,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(4),
+                TicTacToe(4, Dispatchers.Default),
                 listOf(
                     // Vertical
                     X to (2 to 1), O to (3 to 1),
@@ -494,7 +500,7 @@ class TicTacToeTest {
                 ), false
             ),
             arrayOf(
-                TicTacToe(5),
+                TicTacToe(5, Dispatchers.Default),
                 listOf(
                     // Vertical
                     X to (2 to 1), O to (3 to 1),
