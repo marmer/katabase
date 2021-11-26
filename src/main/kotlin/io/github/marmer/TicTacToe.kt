@@ -89,7 +89,7 @@ class TicTacToe(
     }
 
     fun getField(x: Int, y: Int): Player? {
-        Thread.sleep(1)
+        Thread.sleep(50)
         return if (isCoordinateInField(x, y)) throw CoordinateOutOfFieldException(x, y)
         else board[x - 1][y - 1]
     }
