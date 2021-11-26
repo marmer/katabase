@@ -1,8 +1,8 @@
 package io.github.marmer
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 
 class TicTacToe(private val boardSize: Int = 3) {
@@ -36,29 +36,50 @@ class TicTacToe(private val boardSize: Int = 3) {
     private fun isDoublwMoveTryFor(player: Player) = playerOfLastMove == player
 
 
+    private val dispatcher = Dispatchers.Default
+
+    /**
+     * WARNING!!! This method is not threadsafe because the data accessed within this method are mutable!
+     */
     fun isGameWon(): Boolean = runBlocking {
-        val rows = async(newSingleThreadContext("rows")) {
-            (1..boardSize).map { y ->
-                (1..boardSize).map { x -> getField(x, y) }
+        val rows =
+            async(dispatcher) {
+                (1..boardSize).map { y ->
+                    (1..boardSize).map { x ->
+                        async(dispatcher) {
+                            getField(x, y)
+                        }
+                    }.awaitAll()
+                }
             }
-        }
 
-        val columns = async(newSingleThreadContext("columns")) {
-            (1..boardSize).map { x ->
-                (1..boardSize).map { y -> getField(x, y) }
+
+        val columns =
+            async(dispatcher) {
+                (1..boardSize).map { x ->
+                    (1..boardSize).map { y ->
+                        async(dispatcher) {
+                            getField(x, y)
+                        }
+                    }
+                        .awaitAll()
+                }
             }
-        }
 
-        val diagonal1 = async(newSingleThreadContext("diagonal1")) {
-            listOf((1..boardSize).map {
-                getField(it, it)
-            })
-        }
-        val diagonal2 = async(newSingleThreadContext("diagonal2")) {
-            listOf((1..boardSize).map {
-                getField(it, boardSize - (it - 1))
-            })
-        }
+
+        val diagonal1 =
+            async(dispatcher) {
+                listOf((1..boardSize).map {
+                    getField(it, it)
+                })
+            }
+
+        val diagonal2 =
+            async(dispatcher) {
+                listOf((1..boardSize).map {
+                    getField(it, boardSize - (it - 1))
+                })
+            }
 
         awaitAll(rows, columns, diagonal1, diagonal2).flatten()
             .any { isWinningLine(it) }
@@ -70,9 +91,11 @@ class TicTacToe(private val boardSize: Int = 3) {
                 numberOfFieldsByPlayer.get(Player.O)?.size == boardSize
     }
 
-    fun getField(x: Int, y: Int): Player? =
-        if (isCoordinateInField(x, y)) throw CoordinateOutOfFieldException(x, y)
+    fun getField(x: Int, y: Int): Player? {
+        Thread.sleep(50)
+        return if (isCoordinateInField(x, y)) throw CoordinateOutOfFieldException(x, y)
         else board[x - 1][y - 1]
+    }
 
     fun getBoard(): Array<Array<Player?>> =
         board.map { it.copyOf() }
