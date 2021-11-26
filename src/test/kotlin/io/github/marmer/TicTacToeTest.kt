@@ -127,8 +127,7 @@ class TicTacToeTest {
     )
     fun `Bei schon besetzten Feldern sollten eine vernuenftige Exception fliegen`(
         x: Int,
-        y: Int,
-        player: Player
+        y: Int
     ) {
         // Preparation
         val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
@@ -166,7 +165,6 @@ class TicTacToeTest {
         xX3: Int, yX3: Int, //X 3. Move
         xO1: Int, yO1: Int, //O 1. Move
         xO2: Int, yO2: Int, //O 2. Move
-        xO3: Int, yO3: Int, //O Not Allowed Move
     ) {
         // Preparation
         val underTest = TicTacToe(coroutineDispatcher = Dispatchers.Default)
