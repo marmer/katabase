@@ -27,6 +27,8 @@ class MorseAppIT {
         new ElectricSignalMorseDecoderDecorator(
             new PlainMorseDecoder(
                 new LatinMorseDictionary()))); // TODO: marmer 17.09.2021 get it by a factory
+
+//    https://medium.com/@fabioCollini/android-testing-using-dagger-2-mockito-and-a-custom-junit-rule-c8487ed01b56
   }
 
   @Test
