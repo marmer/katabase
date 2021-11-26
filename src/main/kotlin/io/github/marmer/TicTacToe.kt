@@ -1,5 +1,9 @@
 package io.github.marmer
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
+
 class TicTacToe(private val boardSize: Int = 3) {
     init {
         if (boardSize < 3) throw InvalidFieldSizeException(3)
@@ -30,24 +34,35 @@ class TicTacToe(private val boardSize: Int = 3) {
 
     private fun isDoublwMoveTryFor(player: Player) = playerOfLastMove == player
 
+
     fun isGameWon(): Boolean {
-        val rows = (1..boardSize).map { y ->
-            (1..boardSize).map { x -> getField(x, y) }
-        }
+        return runBlocking {
+            val rows = async {
+                (1..boardSize).map { y ->
+                    (1..boardSize).map { x -> getField(x, y) }
+                }
+            }
 
-        val columns = (1..boardSize).map { x ->
-            (1..boardSize).map { y -> getField(x, y) }
-        }
+            val columns = async {
+                (1..boardSize).map { x ->
+                    (1..boardSize).map { y -> getField(x, y) }
+                }
+            }
 
-        val diagonal1 = (1..boardSize).map {
-            getField(it, it)
-        }
-        val diagonal2 = (1..boardSize).map {
-            getField(it, boardSize - (it - 1))
-        }
+            val diagonal1 = async {
+                listOf((1..boardSize).map {
+                    getField(it, it)
+                })
+            }
+            val diagonal2 = async {
+                listOf((1..boardSize).map {
+                    getField(it, boardSize - (it - 1))
+                })
+            }
 
-        return (rows + columns + listOf(diagonal1) + listOf(diagonal2))
-            .any { isWinningLine(it) }
+            awaitAll(rows, columns, diagonal1, diagonal2).flatten()
+                .any { isWinningLine(it) }
+        }
     }
 
     private fun isWinningLine(lineOfFields: List<Player?>): Boolean {
