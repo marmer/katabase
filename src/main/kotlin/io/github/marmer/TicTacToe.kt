@@ -61,8 +61,7 @@ class TicTacToe(private val boardSize: Int = 3) {
                         async(dispatcher) {
                             getField(x, y)
                         }
-                    }
-                        .awaitAll()
+                    }.awaitAll()
                 }
             }
 
